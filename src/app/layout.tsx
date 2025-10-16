@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <body
-        className={`${firaCode.variable} min-h-screen font-sans antialiased`}
+        className={`${firaCode.variable} min-h-screen font-mono antialiased`}
       >
         <ThemeProvider
           attribute="class"
