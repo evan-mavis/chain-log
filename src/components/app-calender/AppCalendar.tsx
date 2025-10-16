@@ -29,7 +29,6 @@ export default function AppCalendar({ completedDates = [] }: Props) {
     for (let i = 0; i < key.length; i++) {
       hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
     }
-    // ~75% true: values 1,2,3 modulo 4
     return hash % 4 !== 0;
   };
   const hasPrev = (date: Date) => isAchieved(addDays(date, -1));
