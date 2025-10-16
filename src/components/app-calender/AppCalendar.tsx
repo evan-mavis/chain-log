@@ -36,7 +36,7 @@ export default function AppCalendar({ completedDates = [] }: Props) {
 
   return (
     <Calendar
-      className="w-full rounded-md border p-2"
+      className="bg-popover text-popover-foreground w-full rounded-md border-2 p-2 shadow-md"
       mode="single"
       showOutsideDays={false}
       numberOfMonths={isMobile ? 1 : 3}
