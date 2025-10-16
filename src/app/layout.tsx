@@ -20,8 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${firaCode.variable} font-sans antialiased`}>
+    <html lang="en" className="h-full" suppressHydrationWarning>
+      <body
+        className={`${firaCode.variable} min-h-screen font-sans antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
