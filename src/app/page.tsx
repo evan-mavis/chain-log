@@ -1,9 +1,10 @@
 import AppCalendar from "@/components/app-calender/AppCalendar";
+import AppHeader from "@/components/app-header/AppHeader";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="m-3 text-2xl font-bold">Chain Log</h1>
+      <AppHeader />
       <div className="w-[85%]">
         <AppCalendar />
       </div>

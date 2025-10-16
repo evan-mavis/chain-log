@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fira_Code } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider/ThemeProvider";
 
 const firaCode = Fira_Code({
   variable: "--font-fira-code",
@@ -19,9 +20,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${firaCode.variable} antialiased font-sans`}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${firaCode.variable} font-sans antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
