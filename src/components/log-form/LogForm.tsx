@@ -10,7 +10,7 @@ export default function LogForm({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "mt-3 flex flex-col items-center justify-center sm:mr-4 sm:mt-0",
+        "mt-3 flex flex-col items-center justify-center sm:mt-0",
         className,
       )}
     >

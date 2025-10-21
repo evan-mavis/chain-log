@@ -16,10 +16,10 @@ export default function GoalTabs({ className }: { className?: string }) {
         <TabsTrigger value="active">Active</TabsTrigger>
         <TabsTrigger value="completed">Completed</TabsTrigger>
       </TabsList>
-      <TabsContent value="active">
+      <TabsContent value="active" className="w-full">
         <ActiveGoals />
       </TabsContent>
-      <TabsContent value="completed">
+      <TabsContent value="completed" className="w-full">
         <CompletedGoals />
       </TabsContent>
     </Tabs>

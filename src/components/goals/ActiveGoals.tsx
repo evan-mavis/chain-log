@@ -85,7 +85,7 @@ export default function ActiveGoals() {
   };
 
   return (
-    <Card className="gap-0 rounded-xl">
+    <Card className="w-full gap-0 rounded-xl">
       <CardHeader className="text-popover-foreground border-b">
         <CardTitle className="flex items-center gap-2 text-base font-semibold">
           Your Active Goals
