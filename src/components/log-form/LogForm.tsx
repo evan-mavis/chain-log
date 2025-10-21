@@ -7,8 +7,8 @@ export default function LogForm() {
   const currentDate = new Date().toLocaleDateString();
 
   return (
-    <div className="mt-3 flex flex-col items-center justify-center sm:mr-4 sm:mt-0">
-      <h3 className="text-sm font-bold">Notes // {currentDate}</h3>
+    <div className="mt-3 flex flex-col items-center justify-center sm:mr-4 sm:mt-0 sm:w-[45%]">
+      <h3 className="mb-2 text-sm font-bold">Notes // {currentDate}</h3>
       <Textarea
         className="w-full"
         placeholder="What did you do today to keep your chain going?"

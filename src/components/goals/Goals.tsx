@@ -2,25 +2,27 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 export default function Goals() {
   return (
-    <Card className="w-full gap-2 rounded-lg border-2">
-      <CardHeader>
-        <CardTitle className="underline">Your Active Goals</CardTitle>
+    <Card className="gap-0 rounded-xl sm:w-[55%]">
+      <CardHeader className="text-popover-foreground border-b">
+        <CardTitle className="text-base font-semibold">
+          Your Active Goals
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <ul>
-          <li>
-            <span className="italic">Long-term:</span> Break into a big-tech or
-            high profile startup.
-          </li>
-          <li>
-            <span className="italic">Short-term:</span> Built and app using
-            Next.js and Postgres.
-          </li>
-          <li>
-            <span className="italic">Daily:</span> Do 3 leetcode problems
-            minimum.
-          </li>
-        </ul>
+      <CardContent className="px-0">
+        <dl className="divide-y">
+          <div className="grid grid-cols-[8rem_1fr] items-start gap-4 px-6 py-3">
+            <dt className="text-muted-foreground">Long-term</dt>
+            <dd>Break into a big-tech or high profile startup.</dd>
+          </div>
+          <div className="grid grid-cols-[8rem_1fr] items-start gap-4 px-6 py-3">
+            <dt className="text-muted-foreground">Short-term</dt>
+            <dd>Build an app using Next.js and Postgres.</dd>
+          </div>
+          <div className="grid grid-cols-[8rem_1fr] items-start gap-4 px-6 py-3">
+            <dt className="text-muted-foreground">Daily</dt>
+            <dd>Do 3 LeetCode problems minimum.</dd>
+          </div>
+        </dl>
       </CardContent>
     </Card>
   );

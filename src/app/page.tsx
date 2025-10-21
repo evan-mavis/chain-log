@@ -8,7 +8,7 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center">
       <AppHeader />
       <div className="w-[85%]">
-        <AppCalendar className="mb-4" />
+        <AppCalendar />
         <div className="flex flex-col items-center justify-center sm:mt-4 sm:flex-row">
           <LogForm />
           <Goals />
