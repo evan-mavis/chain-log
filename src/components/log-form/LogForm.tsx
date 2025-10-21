@@ -2,15 +2,21 @@ import { Frown, Laugh, Meh } from "lucide-react";
 import { ConfettiSideCannons } from "../ui/confetti-side-cannons";
 import { Textarea } from "../ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { cn } from "@/lib/utils";
 
-export default function LogForm() {
+export default function LogForm({ className }: { className?: string }) {
   const currentDate = new Date().toLocaleDateString();
 
   return (
-    <div className="mt-3 flex flex-col items-center justify-center sm:mr-4 sm:mt-0 sm:w-[45%]">
+    <div
+      className={cn(
+        "mt-3 flex flex-col items-center justify-center sm:mr-4 sm:mt-0",
+        className,
+      )}
+    >
       <h3 className="mb-2 text-sm font-bold">Notes // {currentDate}</h3>
       <Textarea
-        className="w-full"
+        className="min-h-28 w-full"
         placeholder="What did you do today to keep your chain going?"
       />
       <div className="m-4 flex flex-nowrap items-center justify-center gap-3">

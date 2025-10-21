@@ -117,6 +117,7 @@ interface ConfettiButtonProps extends React.ComponentProps<"button"> {
 const ConfettiButtonComponent = ({
   options,
   children,
+  onClick,
   ...props
 }: ConfettiButtonProps) => {
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -137,7 +138,20 @@ const ConfettiButtonComponent = ({
   };
 
   return (
-    <Button variant="outline" onClick={handleClick} {...props}>
+    <Button
+      variant={(props as any).variant ?? "outline"}
+      onClick={async (e) => {
+        await handleClick(e);
+        try {
+          if (typeof onClick === "function") {
+            await (onClick as any)(e);
+          }
+        } catch (err) {
+          // no-op
+        }
+      }}
+      {...props}
+    >
       {children}
     </Button>
   );
