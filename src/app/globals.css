@@ -192,3 +192,28 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes keyboard-wave {
+    0% {
+      background-position: 200% 50%;
+    }
+    100% {
+      background-position: -200% 50%;
+    }
+  }
+
+  .text-keyboard-wave {
+    background: linear-gradient(
+      90deg,
+      var(--foreground),
+      var(--background),
+      var(--foreground)
+    );
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: keyboard-wave 10s linear infinite;
+  }
+}
