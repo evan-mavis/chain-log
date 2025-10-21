@@ -12,6 +12,7 @@ import {
   X,
   Target,
   Trophy,
+  Activity,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { ConfettiButton } from "../ui/confetti";
@@ -86,8 +87,9 @@ export default function ActiveGoals() {
   return (
     <Card className="gap-0 rounded-xl">
       <CardHeader className="text-popover-foreground border-b">
-        <CardTitle className="text-base font-semibold">
+        <CardTitle className="flex items-center gap-2 text-base font-semibold">
           Your Active Goals
+          <Activity />
         </CardTitle>
       </CardHeader>
       <CardContent className="px-0">

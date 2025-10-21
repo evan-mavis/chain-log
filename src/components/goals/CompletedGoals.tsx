@@ -1,5 +1,6 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 type CompletedGoal = {
@@ -34,8 +35,9 @@ export default function CompletedGoals() {
   return (
     <Card className="gap-0 rounded-xl">
       <CardHeader className="text-popover-foreground border-b">
-        <CardTitle className="pb-0 text-base font-semibold">
-          Completed Goals
+        <CardTitle className="flex items-center gap-2 text-base font-semibold">
+          Your Completed Goals
+          <Check />
         </CardTitle>
       </CardHeader>
       <CardContent className="px-0">

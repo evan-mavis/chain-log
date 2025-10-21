@@ -6,7 +6,10 @@ import CompletedGoals from "./CompletedGoals";
 export default function GoalTabs({ className }: { className?: string }) {
   return (
     <Tabs
-      className={cn("mt-4 w-full sm:ml-6 sm:mt-0", className)}
+      className={cn(
+        "mt-4 flex w-full flex-col items-center sm:ml-6 sm:mt-0",
+        className,
+      )}
       defaultValue="active"
     >
       <TabsList>

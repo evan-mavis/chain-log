@@ -2,15 +2,17 @@ import AppCalendar from "@/components/app-calender/AppCalendar";
 import AppHeader from "@/components/app-header/AppHeader";
 import GoalTabs from "@/components/goals/GoalTabs";
 import LogForm from "@/components/log-form/LogForm";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center">
       <AppHeader />
-      <div className="w-[85%]">
+      <div className="flex w-[85%] flex-col items-center justify-center">
         <AppCalendar />
         <div className="flex flex-col items-center justify-center sm:mt-6 sm:flex-row">
           <LogForm className="sm:w-[45%]" />
+          <Separator className="my-4 w-full sm:hidden" />
           <GoalTabs className="sm:w-[55%]" />
         </div>
       </div>
