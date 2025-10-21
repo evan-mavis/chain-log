@@ -29,11 +29,71 @@ const mockCompleted: CompletedGoal[] = [
     type: "Daily",
     completedAt: new Date().toLocaleDateString(),
   },
+  {
+    id: "4",
+    value: "Refactored calendar component",
+    type: "Short-term",
+    completedAt: new Date().toLocaleDateString(),
+  },
+  {
+    id: "5",
+    value: "First paid user",
+    type: "Long-term",
+    completedAt: new Date().toLocaleDateString(),
+  },
+  {
+    id: "6",
+    value: "Shipped stats bar",
+    type: "Short-term",
+    completedAt: new Date().toLocaleDateString(),
+  },
+  {
+    id: "7",
+    value: "100 commits streak",
+    type: "Daily",
+    completedAt: new Date().toLocaleDateString(),
+  },
+  {
+    id: "8",
+    value: "Improved accessibility across app",
+    type: "Short-term",
+    completedAt: new Date().toLocaleDateString(),
+  },
+  {
+    id: "9",
+    value: "Optimized build times",
+    type: "Short-term",
+    completedAt: new Date().toLocaleDateString(),
+  },
+  {
+    id: "10",
+    value: "Integrated confetti interaction",
+    type: "Short-term",
+    completedAt: new Date().toLocaleDateString(),
+  },
+  {
+    id: "11",
+    value: "Set up CI for lint checks",
+    type: "Short-term",
+    completedAt: new Date().toLocaleDateString(),
+  },
+  {
+    id: "12",
+    value: "Hit 1,000 DAU milestone",
+    type: "Long-term",
+    completedAt: new Date().toLocaleDateString(),
+  },
+  {
+    id: "13",
+    value: "Fixed layout shift on tab change",
+    type: "Short-term",
+    completedAt: new Date().toLocaleDateString(),
+  },
 ];
 
 export default function CompletedGoals() {
   return (
-    <Card className="w-full gap-0 rounded-xl">
+    <Card className="scrollbar-thin max-h-[55vh] w-full gap-0 overflow-y-auto rounded-xl">
       <CardHeader className="text-popover-foreground border-b">
         <CardTitle className="flex items-center gap-2 text-base font-semibold">
           Your Completed Goals

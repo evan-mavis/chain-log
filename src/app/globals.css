@@ -216,4 +216,25 @@
     color: transparent;
     animation: keyboard-wave 10s linear infinite;
   }
+
+  /* minimal scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted-foreground) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: color-mix(
+      in oklch,
+      var(--muted-foreground) 40%,
+      transparent
+    );
+    border-radius: 9999px;
+  }
 }

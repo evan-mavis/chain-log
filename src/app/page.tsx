@@ -11,7 +11,7 @@ export default function Home() {
       <AppHeader />
       <div className="flex w-[85%] flex-col items-center justify-center">
         <AppCalendar />
-        <div className="flex w-full flex-col items-center justify-center sm:mt-6 sm:flex-row">
+        <div className="flex w-full flex-col items-center justify-center sm:mt-6 sm:flex-row sm:items-start">
           <div className="w-full sm:w-[45%]">
             <StatsBar className="mb-3" />
             <LogForm />
