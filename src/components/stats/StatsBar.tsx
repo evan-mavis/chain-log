@@ -93,7 +93,7 @@ export default function StatsBar({ className }: Props) {
           </div>
           <div className="flex items-center justify-center gap-1 text-base font-semibold sm:text-lg">
             <Flame className="size-4 shrink-0 text-orange-500" />
-            <span>{currentStreak}d</span>
+            <span className="bg-gradient-to-r from-orange-600 via-orange-300 to-orange-600 bg-clip-text text-transparent bg-[length:300%_100%] animate-[shine_5s_ease-in-out_infinite]">{currentStreak}d</span>
           </div>
         </div>
         <div className="bg-background hidden overflow-visible rounded-xl border p-2 text-center sm:block">
@@ -102,7 +102,7 @@ export default function StatsBar({ className }: Props) {
           </div>
           <div className="flex items-center justify-center gap-1 text-lg font-semibold">
             <CalendarDays className="size-4 shrink-0 text-blue-500" />
-            <span>{last7}/7</span>
+            <span className="bg-gradient-to-r from-blue-600 via-blue-300 to-blue-600 bg-clip-text text-transparent bg-[length:300%_100%] animate-[shine_5s_ease-in-out_infinite]">{last7}/7</span>
           </div>
         </div>
         <div className="bg-background hidden overflow-visible rounded-xl border p-2 text-center sm:block">
@@ -111,7 +111,7 @@ export default function StatsBar({ className }: Props) {
           </div>
           <div className="flex items-center justify-center gap-1 text-lg font-semibold">
             <CalendarCheck className="size-4 shrink-0 text-emerald-600" />
-            <span>{monthCount}</span>
+            <span className="bg-gradient-to-r from-emerald-700 via-emerald-400 to-emerald-700 bg-clip-text text-transparent bg-[length:300%_100%] animate-[shine_5s_ease-in-out_infinite]">{monthCount}</span>
           </div>
         </div>
         <div className="bg-background overflow-visible rounded-xl border p-2 text-center sm:block">
@@ -120,7 +120,7 @@ export default function StatsBar({ className }: Props) {
           </div>
           <div className="flex items-center justify-center gap-1 text-lg font-semibold">
             <Award className="size-4 shrink-0 text-yellow-500" />
-            <span>{bestStreak}d</span>
+            <span className="bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 bg-clip-text text-transparent bg-[length:300%_100%] animate-[shine_5s_ease-in-out_infinite]">{bestStreak}d</span>
           </div>
         </div>
       </div>
