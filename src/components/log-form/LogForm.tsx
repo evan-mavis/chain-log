@@ -66,7 +66,7 @@ export default function LogForm({ className, date, isLogged = false }: LogFormPr
       <h3 className="mb-2 mt-3 text-sm font-bold">Notes // {displayDate}</h3>
       <Textarea
         className="min-h-20 w-full sm:min-h-40"
-        placeholder="What did you do today to keep your chain going? (submit only if you made progress toward an active goal)"
+        placeholder="What did you do today to keep your chain going? "
         value={textareaValue}
         onChange={(e) => handleTextareaChange(e.target.value)}
       />
