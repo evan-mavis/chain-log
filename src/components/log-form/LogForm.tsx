@@ -3,6 +3,7 @@
 import { Frown, Laugh, Meh } from "lucide-react";
 import { useState } from "react";
 import { ConfettiSideCannons } from "../ui/confetti-side-cannons";
+import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { cn } from "@/lib/utils";
@@ -82,12 +83,22 @@ export default function LogForm({ className, date, isLogged = false }: LogFormPr
           </ToggleGroupItem>
         </ToggleGroup>
         <div className="shrink-0">
-          <ConfettiSideCannons 
-            onClick={handleSubmit}
-            disabled={isSubmitted && !isDirty}
-          >
-            {getButtonText()}
-          </ConfettiSideCannons>
+          {isCurrentDate && !isSubmitted ? (
+            <ConfettiSideCannons 
+              onClick={handleSubmit}
+              disabled={isSubmitted && !isDirty}
+            >
+              {getButtonText()}
+            </ConfettiSideCannons>
+          ) : (
+            <Button 
+              onClick={handleSubmit}
+              disabled={isSubmitted && !isDirty}
+              variant="outline"
+            >
+              {getButtonText()}
+            </Button>
+          )}
         </div>
       </div>
     </div>
