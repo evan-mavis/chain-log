@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 import {
   Card,
   CardContent,
@@ -19,6 +19,7 @@ import {
   Target,
   Trophy,
   Activity,
+  Sparkles,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { ConfettiButton } from "../ui/confetti";
@@ -30,6 +31,8 @@ type GoalItem = {
   value: string;
   draft?: string;
   editing?: boolean;
+  completing?: boolean;
+  highlightText?: boolean;
 };
 
 const initialGoals: GoalItem[] = [
@@ -56,6 +59,20 @@ export default function ActiveGoals({
   headerAction?: ReactNode;
 }) {
   const [goals, setGoals] = useState<GoalItem[]>(initialGoals);
+  const textareaRefs = useRef<{ [key: string]: HTMLTextAreaElement | null }>({});
+
+  // Handle text selection when transitioning from completion to edit
+  useEffect(() => {
+    goals.forEach((goal) => {
+      if (goal.highlightText && goal.editing) {
+        const textarea = textareaRefs.current[goal.id];
+        if (textarea) {
+          textarea.focus();
+          textarea.select();
+        }
+      }
+    });
+  }, [goals]);
 
   const startEdit = (id: string) =>
     setGoals((gs) =>
@@ -65,7 +82,13 @@ export default function ActiveGoals({
     );
 
   const updateDraft = (id: string, v: string) =>
-    setGoals((gs) => gs.map((g) => (g.id === id ? { ...g, draft: v } : g)));
+    setGoals((gs) => 
+      gs.map((g) => 
+        g.id === id 
+          ? { ...g, draft: v, highlightText: false } 
+          : g
+      )
+    );
 
   const save = (id: string) =>
     setGoals((gs) =>
@@ -76,6 +99,7 @@ export default function ActiveGoals({
               value: g.draft ?? g.value,
               draft: undefined,
               editing: false,
+              highlightText: false,
             }
           : g,
       ),
@@ -84,7 +108,34 @@ export default function ActiveGoals({
   const cancel = (id: string) =>
     setGoals((gs) =>
       gs.map((g) =>
-        g.id === id ? { ...g, draft: undefined, editing: false } : g,
+        g.id === id ? { ...g, draft: undefined, editing: false, highlightText: false } : g,
+      ),
+    );
+
+  const startComplete = (id: string) =>
+    setGoals((gs) =>
+      gs.map((g) =>
+        g.id === id ? { ...g, completing: true } : g,
+      ),
+    );
+
+  const confirmComplete = (id: string) =>
+    setGoals((gs) =>
+      gs.map((g) =>
+        g.id === id ? { 
+          ...g, 
+          completing: false, 
+          editing: true, 
+          draft: g.value,
+          highlightText: true
+        } : g,
+      ),
+    );
+
+  const cancelComplete = (id: string) =>
+    setGoals((gs) =>
+      gs.map((g) =>
+        g.id === id ? { ...g, completing: false } : g,
       ),
     );
 
@@ -95,7 +146,7 @@ export default function ActiveGoals({
   };
 
   return (
-    <Card className="scrollbar-thin max-h-[40vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pt-0">
+    <Card className="scrollbar-thin max-h-[37vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pt-0">
       <CardHeader className="text-popover-foreground bg-card sticky top-0 z-10 grid-rows-[auto] items-center border-b py-2">
         <CardTitle className="flex items-center gap-2 text-base font-semibold">
           Active Goals
@@ -138,6 +189,27 @@ export default function ActiveGoals({
                       <X className="h-4 w-4" />
                     </Button>
                   </>
+                ) : g.completing ? (
+                  <>
+                    <ConfettiEmoji size="icon-sm" variant="outline">
+                      <Button
+                        variant="outline"
+                        size="icon-sm"
+                        aria-label="Confirm completion"
+                        onClick={() => confirmComplete(g.id)}
+                      >
+                        <Check className="h-4 w-4" />
+                      </Button>
+                    </ConfettiEmoji>
+                    <Button
+                      variant="outline"
+                      size="icon-sm"
+                      aria-label="Cancel completion"
+                      onClick={() => cancelComplete(g.id)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </>
                 ) : (
                   <>
                     <Button
@@ -150,11 +222,14 @@ export default function ActiveGoals({
                     </Button>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <span>
-                          <ConfettiEmoji size="icon-sm" variant="outline">
-                            <Trophy className="h-4 w-4" />
-                          </ConfettiEmoji>
-                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon-sm"
+                          aria-label="Complete goal"
+                          onClick={() => startComplete(g.id)}
+                        >
+                          <Trophy className="h-4 w-4" />
+                        </Button>
                       </TooltipTrigger>
                       <TooltipContent sideOffset={6}>
                         Complete goal
@@ -170,12 +245,22 @@ export default function ActiveGoals({
                 }
               >
                 {g.editing ? (
-                  <Textarea
-                    className="w-full"
-                    value={g.draft ?? ""}
-                    onChange={(e) => updateDraft(g.id, e.target.value)}
-                    placeholder={`Edit your ${g.label.toLowerCase()} goal...`}
-                  />
+                  <div>
+                    {g.highlightText && (
+                      <p className="mb-2 text-sm text-muted-foreground">
+                        Goal completed! Enter your new {g.label.toLowerCase()} goal:
+                      </p>
+                    )}
+                    <Textarea
+                      ref={(el) => {
+                        textareaRefs.current[g.id] = el;
+                      }}
+                      className="w-full"
+                      value={g.draft ?? ""}
+                      onChange={(e) => updateDraft(g.id, e.target.value)}
+                      placeholder={`Edit your ${g.label.toLowerCase()} goal...`}
+                    />
+                  </div>
                 ) : (
                   <span>{g.value}</span>
                 )}

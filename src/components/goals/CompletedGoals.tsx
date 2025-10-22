@@ -104,7 +104,7 @@ export default function CompletedGoals({
   headerAction?: ReactNode;
 }) {
   return (
-    <Card className="scrollbar-thin max-h-[40vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pb-2 pt-0">
+    <Card className="scrollbar-thin max-h-[37vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pb-2 pt-0">
       <CardHeader className="text-popover-foreground bg-card sticky top-0 z-10 grid-rows-[auto] items-center border-b py-2">
         <CardTitle className="flex items-center gap-2 text-base font-semibold">
           Completed Goals
