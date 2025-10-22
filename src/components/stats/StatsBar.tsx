@@ -86,17 +86,17 @@ export default function StatsBar({ className }: Props) {
         (className ?? "")
       }
     >
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 min-[950px]:grid-cols-4">
         <div className="bg-background rounded-xl border p-2 text-center">
           <div className="text-muted-foreground flex h-6 items-center justify-center gap-1 whitespace-nowrap text-xs leading-none">
-            <span>Active Streak</span>
+            <span>Streak</span>
           </div>
           <div className="flex items-center justify-center gap-1 text-base font-semibold sm:text-lg">
             <Flame className="size-4 shrink-0 text-orange-500" />
             <span className="bg-gradient-to-r from-orange-600 via-orange-300 to-orange-600 bg-clip-text text-transparent bg-[length:300%_100%] animate-[shine_5s_ease-in-out_infinite]">{currentStreak}d</span>
           </div>
         </div>
-        <div className="bg-background hidden overflow-visible rounded-xl border p-2 text-center sm:block">
+        <div className="bg-background hidden overflow-visible rounded-xl border p-2 text-center min-[950px]:block">
           <div className="text-muted-foreground flex h-6 items-center justify-center gap-1 whitespace-nowrap text-xs leading-none">
             <span>Last 7 Days</span>
           </div>
@@ -105,7 +105,7 @@ export default function StatsBar({ className }: Props) {
             <span className="bg-gradient-to-r from-blue-600 via-blue-300 to-blue-600 bg-clip-text text-transparent bg-[length:300%_100%] animate-[shine_5s_ease-in-out_infinite]">{last7}/7</span>
           </div>
         </div>
-        <div className="bg-background hidden overflow-visible rounded-xl border p-2 text-center sm:block">
+        <div className="bg-background hidden overflow-visible rounded-xl border p-2 text-center min-[950px]:block">
           <div className="text-muted-foreground flex h-6 items-center justify-center gap-1 whitespace-nowrap text-xs leading-none">
             <span>This Month</span>
           </div>
