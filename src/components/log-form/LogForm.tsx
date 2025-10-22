@@ -7,10 +7,21 @@ import { Textarea } from "../ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { cn } from "@/lib/utils";
 
-export default function LogForm({ className }: { className?: string }) {
-  const currentDate = new Date().toLocaleDateString();
+type LogFormProps = {
+  className?: string;
+  date?: Date;
+  isLogged?: boolean;
+};
+
+export default function LogForm({ className, date, isLogged = false }: LogFormProps) {
+  const currentDate = new Date();
+  const isCurrentDate = date ? 
+    date.toDateString() === currentDate.toDateString() : 
+    true;
   
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const displayDate = date ? date.toLocaleDateString() : currentDate.toLocaleDateString();
+  
+  const [isSubmitted, setIsSubmitted] = useState(isLogged);
   const [isDirty, setIsDirty] = useState(false);
   const [textareaValue, setTextareaValue] = useState("");
   const [moodValue, setMoodValue] = useState("happy");
@@ -36,6 +47,14 @@ export default function LogForm({ className }: { className?: string }) {
     console.log("Log submitted:", { textareaValue, moodValue });
   };
 
+  const getButtonText = () => {
+    if (isCurrentDate && !isSubmitted) {
+      return "Log today";
+    } else {
+      return "Save Edits";
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -43,7 +62,7 @@ export default function LogForm({ className }: { className?: string }) {
         className,
       )}
     >
-      <h3 className="mb-2 mt-3 text-sm font-bold">Notes // {currentDate}</h3>
+      <h3 className="mb-2 mt-3 text-sm font-bold">Notes // {displayDate}</h3>
       <Textarea
         className="min-h-20 w-full sm:min-h-40"
         placeholder="What did you do today to keep your chain going? (submit only if you made progress toward an active goal)"
@@ -67,7 +86,7 @@ export default function LogForm({ className }: { className?: string }) {
             onClick={handleSubmit}
             disabled={isSubmitted && !isDirty}
           >
-            {isSubmitted ? "Save Edits" : "Log today"}
+            {getButtonText()}
           </ConfettiSideCannons>
         </div>
       </div>
