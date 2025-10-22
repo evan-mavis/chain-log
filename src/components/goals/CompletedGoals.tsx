@@ -1,7 +1,14 @@
 "use client";
 
+import { type ReactNode } from "react";
 import { Check } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardAction,
+} from "../ui/card";
 
 type CompletedGoal = {
   id: string;
@@ -91,16 +98,25 @@ const mockCompleted: CompletedGoal[] = [
   },
 ];
 
-export default function CompletedGoals() {
+export default function CompletedGoals({
+  headerAction,
+}: {
+  headerAction?: ReactNode;
+}) {
   return (
-    <Card className="scrollbar-thin max-h-[55vh] w-full gap-0 overflow-y-auto rounded-xl">
-      <CardHeader className="text-popover-foreground border-b">
+    <Card className="scrollbar-thin max-h-[40vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pb-2 pt-0">
+      <CardHeader className="text-popover-foreground bg-card sticky top-0 z-10 grid-rows-[auto] items-center border-b py-2">
         <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          Your Completed Goals
-          <Check />
+          Completed Goals
+          <Check className="hidden sm:inline" />
         </CardTitle>
+        {headerAction ? (
+          <CardAction className="row-span-1 self-center">
+            {headerAction}
+          </CardAction>
+        ) : null}
       </CardHeader>
-      <CardContent className="px-0">
+      <CardContent className="px-0 py-2">
         <ul className="divide-y">
           {mockCompleted.map((g) => (
             <li

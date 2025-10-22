@@ -14,9 +14,9 @@ export default function LogForm({ className }: { className?: string }) {
         className,
       )}
     >
-      <h3 className="mb-2 text-sm font-bold">Notes // {currentDate}</h3>
+      <h3 className="mb-2 mt-3 text-sm font-bold">Notes // {currentDate}</h3>
       <Textarea
-        className="min-h-28 w-full"
+        className="min-h-20 w-full sm:min-h-40"
         placeholder="What did you do today to keep your chain going?"
       />
       <div className="m-4 flex flex-nowrap items-center justify-center gap-3">
