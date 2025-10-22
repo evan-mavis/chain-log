@@ -20,7 +20,7 @@ export default function LogForm({ className }: { className?: string }) {
         placeholder="What did you do today to keep your chain going?"
       />
       <div className="m-4 flex flex-nowrap items-center justify-center gap-3">
-        <ToggleGroup variant="outline" className="border-1" type="single">
+        <ToggleGroup variant="outline" className="border-1" type="single" defaultValue="happy">
           <ToggleGroupItem value="sad">
             <Frown className="text-red-700" />
           </ToggleGroupItem>
