@@ -11,8 +11,7 @@ export default function DayButton({ className, day, ...props }: Props) {
   return (
     <Button
       variant="ghost"
-      size="icon"
-      className={cn("relative w-full", className)}
+      className={cn("relative w-full h-full hover:bg-red-100 hover:text-red-900 dark:hover:bg-red-900/20 dark:hover:text-red-100 hover:rounded-md transition-colors", className)}
       {...props}
     >
       <span className="pointer-events-none absolute left-1/2 top-[calc(50%+0.75rem)] z-10 -translate-x-1/2 text-[11px] leading-none opacity-80">

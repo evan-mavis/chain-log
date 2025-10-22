@@ -100,7 +100,7 @@ function Calendar({
           defaultClassNames.week_number,
         ),
         day: cn(
-          "group/day relative aspect-square h-full w-full max-h-12 select-none p-0 text-center hover:bg-accent hover:text-accent-foreground transition-colors [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md",
+          "group/day relative aspect-square h-full w-full max-h-12 select-none p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md",
           defaultClassNames.day,
         ),
         range_start: cn(
@@ -110,7 +110,7 @@ function Calendar({
         range_middle: cn("rounded-none", defaultClassNames.range_middle),
         range_end: cn("bg-accent rounded-r-md", defaultClassNames.range_end),
         today: cn(
-          "bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none",
+          "bg-red-100 text-red-900 dark:bg-red-900/20 dark:text-red-100 rounded-md data-[selected=true]:rounded-none",
           defaultClassNames.today,
         ),
         outside: cn(
