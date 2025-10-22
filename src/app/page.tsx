@@ -10,7 +10,9 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center">
       <AppHeader />
       <div className="flex w-[85%] flex-col items-center justify-center">
-        <AppCalendar />
+        <div className="w-full flex justify-center">
+          <AppCalendar />
+        </div>
         <div className="flex w-full flex-col items-center justify-center sm:mt-6 sm:flex-row sm:items-start">
           <div className="w-full sm:w-[45%]">
             <StatsBar className="mb-3" />
