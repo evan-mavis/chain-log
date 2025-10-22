@@ -50,7 +50,7 @@ export default function LogForm({ className, date, isLogged = false }: LogFormPr
 
   const getButtonText = () => {
     if (isCurrentDate && !isSubmitted) {
-      return "Log today";
+      return "Log Today";
     } else {
       return "Save Edits";
     }

@@ -1,13 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, type ReactNode } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardAction,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardAction } from "../ui/card";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import {
@@ -22,6 +16,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { TabsList, TabsTrigger } from "../ui/tabs";
 import { ConfettiButton } from "../ui/confetti";
 import { ConfettiEmoji } from "../ui/confetti-emoji";
 
@@ -147,16 +142,17 @@ export default function ActiveGoals({
 
   return (
     <Card className="scrollbar-thin max-h-[37vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pt-0">
-      <CardHeader className="text-popover-foreground bg-card sticky top-0 z-10 grid-rows-[auto] items-center border-b py-2">
-        <CardTitle className="flex items-center gap-2 text-base font-semibold">
-          Active Goals
-          <Activity className="hidden sm:inline" />
-        </CardTitle>
-        {headerAction ? (
-          <CardAction className="row-span-1 self-center">
-            {headerAction}
-          </CardAction>
-        ) : null}
+      <CardHeader className="text-popover-foreground bg-card sticky top-0 z-10 flex items-center gap-2 border-b py-2">
+        <TabsList className="shrink-0">
+          <TabsTrigger value="active" aria-label="Active" className="gap-2">
+            <span className="sm:hidden inline-flex"><Activity className="size-4" /></span>
+            <span className="hidden sm:inline">Active</span>
+          </TabsTrigger>
+          <TabsTrigger value="completed" aria-label="Completed" className="gap-2">
+            <span className="sm:hidden inline-flex"><Check className="size-4" /></span>
+            <span className="hidden sm:inline">Completed</span>
+          </TabsTrigger>
+        </TabsList>
       </CardHeader>
       <CardContent className="px-0 py-2">
         <dl className="divide-y">
