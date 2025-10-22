@@ -58,11 +58,11 @@ export default function DayButton({ className, day, ...props }: Props) {
           </span>
 
           <span
-            className="pointer-events-none absolute left-0 top-1/2 z-10 h-1 w-[calc(50%-14px)] -translate-y-1/2  bg-red-700 opacity-0 data-[active=true]:opacity-100"
+            className="pointer-events-none absolute left-0 top-1/2 z-10 h-0.75 w-[calc(50%-14px)] -translate-y-1/2  bg-red-700 opacity-0 data-[active=true]:opacity-100"
             data-active={modifiers?.streakLeft ?? false}
           />
           <span
-            className="pointer-events-none absolute right-0 top-1/2 z-10 h-1 w-[calc(50%-14px)] -translate-y-1/2  bg-red-700 opacity-0 data-[active=true]:opacity-100"
+            className="pointer-events-none absolute right-0 top-1/2 z-10 h-0.75 w-[calc(50%-14px)] -translate-y-1/2  bg-red-700 opacity-0 data-[active=true]:opacity-100"
             data-active={modifiers?.streakRight ?? false}
           />
         </Button>
