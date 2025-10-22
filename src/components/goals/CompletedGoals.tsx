@@ -182,7 +182,7 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
               <div className="grid gap-4">
                 {/* Search goals */}
                 <div className="space-y-2">
-                  <h4 className="font-medium leading-none">Search goals</h4>
+                  <h4 className="font-medium leading-none">Search Goals</h4>
                   <div className="relative">
                     <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -200,7 +200,7 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
                 <div className="grid gap-3">
                   {/* Date range (shadcn-style input + popover calendar) */}
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium">Date range</label>
+                    <label className="text-sm font-medium">Date Range</label>
                     <div className="grid grid-cols-2 gap-2">
                       {/* From */}
                       <div className="grid gap-1">
