@@ -45,8 +45,16 @@ export default function Home() {
         </h1>
         <p className="text-muted-foreground mt-4 max-w-2xl text-base leading-7 text-pretty sm:text-lg">
           A micro accountability app to help you meet your goals. Inspired by
-          Jerry Seinfeld’s “chain method” — make progress every day and keep the
-          streak alive.
+          Jerry Seinfeld’s “
+          <a
+            href="https://jamesclear.com/stop-procrastinating-seinfeld-strategy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-4 hover:underline"
+          >
+            chain method
+          </a>
+          ” — make progress every day and keep the streak alive.
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
