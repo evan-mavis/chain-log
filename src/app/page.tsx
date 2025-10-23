@@ -27,7 +27,7 @@ export default function Home() {
       />
 
       <section className="relative mx-auto mt-4 flex min-h-[100dvh] w-[92%] max-w-5xl flex-col items-center justify-center text-center">
-        <div className="bg-background/60 text-muted-foreground mt-16 mb-6 inline-flex items-center gap-0 rounded-full border px-3 py-1 text-xs backdrop-blur sm:mt-0">
+        <div className="bg-background/60 text-muted-foreground mt-5 mb-2 inline-flex items-center gap-0 rounded-full border px-3 py-1 text-xs backdrop-blur sm:mt-0">
           <Unlink2 className="h-5 w-5" />
           <span aria-hidden className="mx-0 h-px w-8 bg-current" />
           <Unlink2 className="h-5 w-5" />
@@ -58,36 +58,36 @@ export default function Home() {
           ” — make progress every day and keep the streak alive.
         </p>
 
-        <div className="relative mt-8 flex flex-col items-center gap-3 sm:flex-row">
+        <div className="relative mt-4 flex flex-col items-center gap-3 sm:flex-row">
           <Link
             href="/dashboard"
-            className={buttonVariants({ variant: "default", size: "lg" })}
+            className={buttonVariants({ variant: "default", size: "default" })}
           >
-            Start your chain
+            Start your Chain
             <ArrowRight className="ml-1" />
           </Link>
 
           <Link
             href="/dashboard-preview"
-            className={buttonVariants({ variant: "outline", size: "lg" })}
+            className={buttonVariants({ variant: "outline", size: "default" })}
           >
-            Preview dashboard
+            Preview Dashboard
           </Link>
         </div>
 
-        <Separator className="mt-12 w-full" />
+        <Separator className="mt-7 w-full" />
 
-        <div className="mt-8 grid w-full grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="mt-8 grid w-full grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-4">
           <FeatureCard
-            title="Simple commitments"
+            title="Simple Commitments"
             text="Set one daily, short-term, and long-term goal at a time."
           />
           <FeatureCard
-            title="Visual streaks"
+            title="Visual Streaks"
             text="See your progress at a glance on the calendar."
           />
           <FeatureCard
-            title="Gentle momentum"
+            title="Gentle Momentum"
             text="Miss a day? No shame. Turn on text notifications."
           />
         </div>
