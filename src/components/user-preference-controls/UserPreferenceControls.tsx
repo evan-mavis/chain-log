@@ -1,15 +1,8 @@
 "use client";
 
-import {
-  MessageSquare,
-  MessageSquareX,
-  Moon,
-  PersonStanding,
-  Sun,
-} from "lucide-react";
+import { MessageSquare, MessageSquareX, PersonStanding } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useTheme } from "next-themes";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,10 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
+import ThemeToggle from "../theme-toggle/ThemeToggle";
 
 export default function UserPreferenceControls() {
   const [textsEnabled, setTextsEnabled] = useState(false);
-  const { setTheme } = useTheme();
 
   return (
     <div className="mr-6 flex items-center justify-center space-x-2 rounded-md border-2 border-red-700 p-2">
@@ -28,7 +21,7 @@ export default function UserPreferenceControls() {
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
-            size="icon"
+            size="icon-sm"
             aria-label="Message notifications menu"
           >
             {textsEnabled ? (
@@ -48,26 +41,9 @@ export default function UserPreferenceControls() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
-            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 text-yellow-500 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 text-purple-500 transition-all dark:rotate-0 dark:scale-100" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setTheme("light")}>
-            Light
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("dark")}>
-            Dark
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("system")}>
-            System
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+
+      <ThemeToggle />
+
       <Avatar>
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>

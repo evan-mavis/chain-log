@@ -2,6 +2,7 @@ import { LinkIcon, Unlink2 } from "lucide-react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import ThemeLoginRow from "@/components/theme-login-row/ThemeLoginRow";
 
 export default function Home() {
   return (
@@ -12,12 +13,7 @@ export default function Home() {
           <LinkIcon className="text-red-500" />
           <span className="text-keyboard-wave text-xl sm:text-2xl">Log</span>
         </div>
-        <Link
-          href="/dashboard"
-          className={buttonVariants({ variant: "default", size: "sm" })}
-        >
-          Login
-        </Link>
+        <ThemeLoginRow />
       </div>
 
       <div
