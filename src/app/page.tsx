@@ -9,24 +9,15 @@ export default function Home() {
     <main className="relative min-h-[100dvh] overflow-hidden">
       <div className="absolute inset-x-0 top-0 flex items-center justify-between px-6 py-5 sm:px-10">
         <div className="flex items-center gap-2 text-sm font-semibold">
-          <span className="text-keyboard-wave text-xl sm:text-2xl">Chain</span>
+          <span className="text-keyboard-wave text-3xl">Chain</span>
           <LinkIcon className="text-red-500" />
-          <span className="text-keyboard-wave text-xl sm:text-2xl">Log</span>
+          <span className="text-keyboard-wave text-3xl">Log</span>
         </div>
         <ThemeLoginRow />
       </div>
 
-      <div
-        aria-hidden
-        className="bg-primary/15 dark:bg-primary/10 pointer-events-none absolute -top-24 -left-24 size-[28rem] rounded-full blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="bg-secondary/20 dark:bg-secondary/10 pointer-events-none absolute -right-24 -bottom-24 size-[28rem] rounded-full blur-3xl"
-      />
-
       <section className="relative mx-auto flex min-h-[100dvh] w-[92%] max-w-5xl flex-col items-center justify-center text-center">
-        <div className="bg-background/60 text-muted-foreground mb-6 inline-flex items-center gap-0 rounded-full border px-3 py-1 text-xs backdrop-blur">
+        <div className="bg-background/60 text-muted-foreground mt-16 mb-6 inline-flex items-center gap-0 rounded-full border px-3 py-1 text-xs backdrop-blur sm:mt-0">
           <Unlink2 className="h-5 w-5" />
           <span aria-hidden className="mx-0 h-px w-8 bg-current" />
           <Unlink2 className="h-5 w-5" />
@@ -40,10 +31,10 @@ export default function Home() {
           <Unlink2 className="h-5 w-5" />
         </div>
 
-        <h1 className="flex items-center justify-center text-4xl font-bold tracking-tight text-balance sm:text-6xl">
+        <h1 className="hidden items-center justify-center text-4xl font-bold tracking-tight text-balance sm:flex sm:text-6xl">
           Chain Log
         </h1>
-        <p className="text-muted-foreground mt-4 max-w-2xl text-base leading-7 text-pretty sm:text-lg">
+        <p className="text-muted-foreground mt-2 max-w-2xl text-base leading-7 text-pretty sm:mt-4 sm:text-lg">
           A micro accountability app to help you meet your goals. Inspired by
           Jerry Seinfeld’s “
           <a
@@ -57,7 +48,7 @@ export default function Home() {
           ” — make progress every day and keep the streak alive.
         </p>
 
-        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+        <div className="relative mt-8 flex flex-col items-center gap-3 sm:flex-row">
           <Link
             href="/dashboard"
             className={buttonVariants({ variant: "default", size: "lg" })}
@@ -65,8 +56,9 @@ export default function Home() {
             Start your chain
             <ArrowRight className="ml-1" />
           </Link>
+
           <Link
-            href="/dashboard"
+            href="/dashboard-preview"
             className={buttonVariants({ variant: "outline", size: "lg" })}
           >
             Preview dashboard
