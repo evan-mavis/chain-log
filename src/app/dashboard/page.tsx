@@ -1,5 +1,5 @@
 import Dashboard from "@/components/dashboard/Dashboard";
-import * as actions from "@/app/actions/dashboard";
+import * as actions from "@/actions/dashboard";
 
 export default function DashboardPage() {
   const data = {} as any; // fetch real data later
