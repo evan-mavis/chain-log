@@ -1,13 +1,14 @@
-import { LinkIcon, Unlink2 } from "lucide-react";
+import { LinkIcon, Unlink2, Pin } from "lucide-react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import ThemeLoginRow from "@/components/theme-login-row/ThemeLoginRow";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
     <main className="relative min-h-[100dvh] overflow-hidden">
-      <div className="absolute inset-x-0 top-0 flex items-center justify-between px-6 py-5 sm:px-10">
+      <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 sm:px-10">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <span className="text-keyboard-wave text-3xl">Chain</span>
           <LinkIcon className="text-red-500" />
@@ -16,7 +17,16 @@ export default function Home() {
         <ThemeLoginRow />
       </div>
 
-      <section className="relative mx-auto flex min-h-[100dvh] w-[92%] max-w-5xl flex-col items-center justify-center text-center">
+      <div
+        aria-hidden
+        className="bg-primary/20 dark:bg-primary/20 pointer-events-none absolute -top-40 -left-40 size-[40rem] rounded-full blur-[120px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-40 -bottom-40 size-[40rem] rounded-full bg-red-500/25 blur-[120px] dark:bg-red-500/25"
+      />
+
+      <section className="relative mx-auto mt-4 flex min-h-[100dvh] w-[92%] max-w-5xl flex-col items-center justify-center text-center">
         <div className="bg-background/60 text-muted-foreground mt-16 mb-6 inline-flex items-center gap-0 rounded-full border px-3 py-1 text-xs backdrop-blur sm:mt-0">
           <Unlink2 className="h-5 w-5" />
           <span aria-hidden className="mx-0 h-px w-8 bg-current" />
@@ -65,7 +75,9 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="mt-14 grid w-full grid-cols-1 gap-4 sm:grid-cols-3">
+        <Separator className="mt-12 w-full" />
+
+        <div className="mt-8 grid w-full grid-cols-1 gap-4 sm:grid-cols-3">
           <FeatureCard
             title="Simple commitments"
             text="Set one daily, short-term, and long-term goal at a time."
@@ -86,7 +98,11 @@ export default function Home() {
 
 function FeatureCard({ title, text }: { title: string; text: string }) {
   return (
-    <div className="bg-card rounded-lg border p-4 text-left shadow-sm">
+    <div className="bg-card relative mb-2 rounded-lg border p-4 text-left shadow-sm">
+      <Pin
+        className="absolute top-0 right-0 m-1 rotate-[30deg] text-red-500"
+        aria-hidden
+      />
       <h3 className="text-sm font-semibold">{title}</h3>
       <p className="text-muted-foreground mt-1 text-sm">{text}</p>
     </div>

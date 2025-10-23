@@ -6,7 +6,7 @@ import { buttonVariants } from "../ui/button";
 
 export default function ThemeLoginRow() {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-3">
       <ThemeToggle />
       <Link
         href="/dashboard"
