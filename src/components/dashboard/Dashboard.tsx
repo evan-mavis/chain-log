@@ -1,5 +1,3 @@
-"use client";
-
 import AppCalendar from "@/components/app-calender/AppCalendar";
 import AppHeader from "@/components/app-header/AppHeader";
 import GoalTabs from "@/components/goals/GoalTabs";
