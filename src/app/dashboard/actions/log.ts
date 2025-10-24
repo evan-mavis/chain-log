@@ -7,15 +7,22 @@ import { LogInputSchema } from "@/validation/logs";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
-export async function upsertLog(formData: FormData): Promise<void> {
-  console.log("upsertLog", formData);
+export type LogFormState = {
+  status: "idle" | "success" | "error";
+  message?: string;
+};
+
+export async function upsertLog(
+  _prev: LogFormState,
+  formData: FormData,
+): Promise<LogFormState> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   const userId = session?.user?.id;
 
   if (!userId) {
-    return;
+    return { status: "error", message: "Not authenticated" };
   }
 
   const validated = LogInputSchema.safeParse({
@@ -25,26 +32,30 @@ export async function upsertLog(formData: FormData): Promise<void> {
   });
 
   if (!validated.success) {
-    return;
+    return { status: "error", message: "Invalid input" };
   }
 
   const { day, notes, mood } = validated.data;
 
-  await db
-    .insert(logs)
-    .values({
-      userId,
-      day,
-      mood,
-      notes,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    })
-    .onConflictDoUpdate({
-      target: [logs.userId, logs.day],
-      set: { mood, notes, updatedAt: new Date().toISOString() },
-    });
+  try {
+    await db
+      .insert(logs)
+      .values({
+        userId,
+        day,
+        mood,
+        notes,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: [logs.userId, logs.day],
+        set: { mood, notes, updatedAt: new Date() },
+      });
 
-  revalidatePath("/dashboard");
-  return;
+    revalidatePath("/dashboard");
+    return { status: "success" };
+  } catch (e) {
+    return { status: "error", message: "Failed to save" };
+  }
 }
