@@ -4,21 +4,13 @@ import GoalTabs from "@/components/goals/GoalTabs";
 import LogForm from "@/components/log-form/LogForm";
 import { Separator } from "@/components/ui/separator";
 import StatsBar from "@/components/stats/StatsBar";
-
-export type DashboardData = unknown;
-
-export type DashboardActions = {
-  // Placeholder signatures; wire up real ones later
-  updateGoal?: (formData: FormData) => Promise<any>;
-};
+import { CurrentLog } from "@/types/logs";
 
 export default function Dashboard({
-  data,
-  actions,
+  currentLog,
   mode,
 }: {
-  data: DashboardData;
-  actions?: DashboardActions;
+  currentLog: CurrentLog;
   mode: "real" | "demo";
 }) {
   return (
@@ -31,7 +23,7 @@ export default function Dashboard({
         <div className="flex w-full flex-col items-center justify-center sm:mt-6 sm:flex-row sm:items-start">
           <div className="w-full sm:w-[45%]">
             <StatsBar className="mb-3" />
-            <LogForm />
+            <LogForm currentLog={currentLog} />
           </div>
           <Separator className="my-4 w-full sm:hidden" />
           <GoalTabs className="sm:w-[55%]" />

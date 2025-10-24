@@ -1,7 +1,8 @@
 import Dashboard from "@/components/dashboard/Dashboard";
-import * as actions from "@/actions/dashboard";
+import { getCurrentLog } from "./services/log";
 
-export default function DashboardPage() {
-  const data = {} as any; // fetch real data later
-  return <Dashboard data={data} actions={actions} mode="real" />;
+export default async function DashboardPage() {
+  const currentLog = await getCurrentLog();
+
+  return <Dashboard currentLog={currentLog} mode="real" />;
 }
