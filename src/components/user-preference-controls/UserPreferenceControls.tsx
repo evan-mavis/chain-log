@@ -2,7 +2,6 @@
 
 import { MessageSquare, MessageSquareX, PersonStanding } from "lucide-react";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +10,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import ThemeToggle from "../theme-toggle/ThemeToggle";
+import AppAvatar from "../app-avatar/AppAvatar";
 
 export default function UserPreferenceControls() {
   const [textsEnabled, setTextsEnabled] = useState(false);
@@ -44,12 +44,7 @@ export default function UserPreferenceControls() {
 
       <ThemeToggle />
 
-      <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>
-          <PersonStanding />
-        </AvatarFallback>
-      </Avatar>
+      <AppAvatar />
     </div>
   );
 }

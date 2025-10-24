@@ -58,15 +58,7 @@ export default function Home() {
           ” — make progress every day and keep the streak alive.
         </p>
 
-        <div className="relative mt-4 flex flex-col items-center gap-3 sm:flex-row">
-          <Link
-            href="/dashboard"
-            className={buttonVariants({ variant: "default", size: "default" })}
-          >
-            Start your Chain
-            <ArrowRight className="ml-1" />
-          </Link>
-
+        <div className="relative mt-4 flex items-center justify-center">
           <Link
             href="/dashboard-preview"
             className={buttonVariants({ variant: "outline", size: "default" })}
