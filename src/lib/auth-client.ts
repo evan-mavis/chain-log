@@ -8,6 +8,7 @@ export const signInWithGoogle = async () => {
     callbackURL: "/dashboard",
     errorCallbackURL: "/",
   });
+
   if (error) console.error(error);
 };
 
@@ -17,5 +18,6 @@ export const signInWithGithub = async () => {
     callbackURL: "/dashboard",
     errorCallbackURL: "/",
   });
+
   if (error) console.error(error);
 };
