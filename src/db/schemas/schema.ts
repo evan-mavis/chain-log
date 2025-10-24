@@ -7,6 +7,7 @@ import {
   pgEnum,
   boolean,
   index,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { user } from "./auth-schema";
 
@@ -28,13 +29,10 @@ export const goals = pgTable(
     type: goalType("type").notNull(),
     description: text("description").notNull(),
     isActive: boolean("is_active").notNull().default(true),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
-    deletedAt: timestamp("deleted_at", { withTimezone: true }),
   },
   (t) => [
     index("goals_by_user_idx").on(t.userId),
@@ -52,13 +50,10 @@ export const logs = pgTable(
     day: date("day").notNull(),
     mood: moodEnum("mood").notNull(),
     notes: text("notes"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
-    deletedAt: timestamp("deleted_at", { withTimezone: true }),
   },
-  (t) => [index("logs_by_user_day_idx").on(t.userId, t.day)],
+  (t) => [uniqueIndex("logs_by_user_day_idx").on(t.userId, t.day)],
 );
