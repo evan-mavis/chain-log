@@ -6,9 +6,8 @@ CREATE TABLE "goals" (
 	"type" "goal_type" NOT NULL,
 	"description" text NOT NULL,
 	"is_active" boolean DEFAULT true NOT NULL,
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"deleted_at" timestamp with time zone
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "logs" (
@@ -17,9 +16,8 @@ CREATE TABLE "logs" (
 	"day" date NOT NULL,
 	"mood" "mood" NOT NULL,
 	"notes" text,
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"deleted_at" timestamp with time zone
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "account" (
@@ -76,18 +74,4 @@ ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "goals_by_user_idx" ON "goals" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "goals_by_user_type_idx" ON "goals" USING btree ("user_id","type");--> statement-breakpoint
-CREATE INDEX "logs_by_user_day_idx" ON "logs" USING btree ("user_id","day");
-
--- custom migrations (non-generated)
--- one active goal per type per user
-create unique index if not exists goals_one_active_per_type_per_user
-  on public.goals (user_id, type)
-  where is_active = true;
-
--- one log per user per day (ignoring soft-deleted if you add it later)
-create unique index if not exists logs_user_day_unique
-  on public.logs (user_id, day);
-
--- log created_at index for user
-create index if not exists logs_by_user_created_at_idx
-  on public.logs (user_id, created_at desc);
+CREATE UNIQUE INDEX "logs_by_user_day_idx" ON "logs" USING btree ("user_id","day");

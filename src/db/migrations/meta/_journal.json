@@ -5,8 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1761258057969,
-      "tag": "0000_init-auth-and-app-schemas",
+      "when": 1761347589381,
+      "tag": "0000_add-app-schema-and-auth-schema",
       "breakpoints": true
     }
   ]
