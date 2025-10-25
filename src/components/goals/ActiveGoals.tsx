@@ -1,25 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
-import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
-import {
-  Check,
-  Rabbit,
-  SquarePen,
-  Turtle,
-  X,
-  Target,
-  Trophy,
-  Activity,
-} from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Check, Activity } from "lucide-react";
 import { TabsList, TabsTrigger } from "../ui/tabs";
-import { ConfettiButton } from "../ui/confetti";
-import { ConfettiEmoji } from "../ui/confetti-emoji";
 
 import type { GoalItem, GoalKey, ActiveGoalsData } from "@/types/goals";
+import GoalRow from "./components/GoalRow";
 
 function toInitialGoals(
   active: ActiveGoalsData | null,
@@ -68,19 +55,26 @@ export default function ActiveGoals({
     });
   }, [goals]);
 
-  const startEdit = (key: GoalKey) =>
-    setGoals((gs) => ({
-      ...gs,
-      [key]: { ...gs[key], editing: true, draft: gs[key].value },
-    }));
+  const startEdit = useCallback(
+    (key: GoalKey) =>
+      setGoals((gs) => ({
+        ...gs,
+        [key]: { ...gs[key], editing: true, draft: gs[key].value },
+      })),
+    [],
+  );
 
-  const updateDraft = (key: GoalKey, v: string) =>
-    setGoals((gs) => ({
-      ...gs,
-      [key]: { ...gs[key], draft: v, highlightText: false },
-    }));
+  const updateDraft = useCallback(
+    (key: GoalKey, v: string) =>
+      setGoals((gs) => ({
+        ...gs,
+        [key]: { ...gs[key], draft: v, highlightText: false },
+      })),
+    [],
+  );
 
-  const save = (key: GoalKey) =>
+  const save = useCallback((key: GoalKey) => {
+    // Server action handles the save, just update local state
     setGoals((gs) => ({
       ...gs,
       [key]: {
@@ -91,152 +85,66 @@ export default function ActiveGoals({
         highlightText: false,
       },
     }));
+  }, []);
 
-  const cancel = (key: GoalKey) =>
-    setGoals((gs) => ({
-      ...gs,
-      [key]: {
-        ...gs[key],
-        draft: undefined,
-        editing: false,
-        highlightText: false,
-      },
-    }));
+  const cancel = useCallback(
+    (key: GoalKey) =>
+      setGoals((gs) => ({
+        ...gs,
+        [key]: {
+          ...gs[key],
+          draft: undefined,
+          editing: false,
+          highlightText: false,
+        },
+      })),
+    [],
+  );
 
-  const startComplete = (key: GoalKey) =>
-    setGoals((gs) => ({ ...gs, [key]: { ...gs[key], completing: true } }));
+  const startComplete = useCallback(
+    (key: GoalKey) =>
+      setGoals((gs) => ({ ...gs, [key]: { ...gs[key], completing: true } })),
+    [],
+  );
 
-  const confirmComplete = (key: GoalKey) =>
-    setGoals((gs) => ({
-      ...gs,
-      [key]: {
-        ...gs[key],
-        completing: false,
-        editing: true,
-        draft: gs[key].value,
-        highlightText: true,
-      },
-    }));
+  const confirmComplete = useCallback(
+    (key: GoalKey) =>
+      setGoals((gs) => ({
+        ...gs,
+        [key]: {
+          ...gs[key],
+          completing: false,
+          editing: true,
+          draft: gs[key].value,
+          highlightText: true,
+        },
+      })),
+    [],
+  );
 
-  const cancelComplete = (key: GoalKey) =>
-    setGoals((gs) => ({ ...gs, [key]: { ...gs[key], completing: false } }));
+  const cancelComplete = useCallback(
+    (key: GoalKey) =>
+      setGoals((gs) => ({ ...gs, [key]: { ...gs[key], completing: false } })),
+    [],
+  );
 
-  const iconFor = (label: GoalItem["label"]) => {
-    if (label === "Long-term") return <Turtle className="h-4 w-4" />;
-    if (label === "Short-term") return <Target className="h-4 w-4" />;
-    return <Rabbit className="h-4 w-4" />;
-  };
-
-  const renderRow = (key: GoalKey) => {
-    const g = goals[key];
-    return (
-      <div
-        key={g.id}
-        className="grid grid-cols-[1fr_auto] items-start gap-2 px-6 py-3 sm:gap-3"
-      >
-        <dt className="text-muted-foreground flex items-center gap-2">
-          {iconFor(g.label)}
-          {g.label}
-        </dt>
-        <div className="flex items-center justify-end gap-2">
-          {g.editing ? (
-            <>
-              <Button
-                variant="outline"
-                size="icon-sm"
-                aria-label="Save goal"
-                onClick={() => save(key)}
-              >
-                <Check className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon-sm"
-                aria-label="Cancel editing"
-                onClick={() => cancel(key)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </>
-          ) : g.completing ? (
-            <>
-              <ConfettiEmoji size="icon-sm" variant="outline">
-                <Button
-                  variant="outline"
-                  size="icon-sm"
-                  aria-label="Confirm completion"
-                  onClick={() => confirmComplete(key)}
-                >
-                  <Check className="h-4 w-4" />
-                </Button>
-              </ConfettiEmoji>
-              <Button
-                variant="outline"
-                size="icon-sm"
-                aria-label="Cancel completion"
-                onClick={() => cancelComplete(key)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                variant="outline"
-                size="icon-sm"
-                aria-label="Edit goal"
-                onClick={() => startEdit(key)}
-              >
-                <SquarePen className="h-4 w-4" />
-              </Button>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="icon-sm"
-                    aria-label="Complete goal"
-                    onClick={() => startComplete(key)}
-                  >
-                    <Trophy className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent sideOffset={6}>Complete goal</TooltipContent>
-              </Tooltip>
-            </>
-          )}
-        </div>
-        <dd
-          className={
-            (g.editing ? "animate-in fade-in-0 duration-300 " : "") +
-            "col-span-2"
-          }
-        >
-          {g.editing ? (
-            <div>
-              {g.highlightText && (
-                <p className="text-muted-foreground mb-2 text-sm">
-                  Goal completed! Enter your new {g.label.toLowerCase()} goal:
-                </p>
-              )}
-              <Textarea
-                ref={(el) => {
-                  textareaRefs.current[key] = el;
-                }}
-                className="w-full"
-                value={g.draft ?? ""}
-                onChange={(e) => updateDraft(key, e.target.value)}
-                placeholder={`Edit your ${g.label.toLowerCase()} goal...`}
-              />
-            </div>
-          ) : (
-            <span className={g.value ? "" : "text-muted-foreground"}>
-              {g.value || "-"}
-            </span>
-          )}
-        </dd>
-      </div>
-    );
-  };
+  const renderRow = (key: GoalKey) => (
+    <GoalRow
+      key={goals[key].id}
+      goal={goals[key]}
+      goalKey={key}
+      textareaRef={(el) => {
+        textareaRefs.current[key] = el;
+      }}
+      onStartEdit={startEdit}
+      onUpdateDraft={updateDraft}
+      onCancel={cancel}
+      onStartComplete={startComplete}
+      onConfirmComplete={confirmComplete}
+      onCancelComplete={cancelComplete}
+      onSaveSuccess={save}
+    />
+  );
 
   return (
     <Card className="scrollbar-thin max-h-[37vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pt-0">
