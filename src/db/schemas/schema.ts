@@ -37,6 +37,12 @@ export const goals = pgTable(
   (t) => [
     index("goals_by_user_idx").on(t.userId),
     index("goals_by_user_type_active_idx").on(t.userId, t.type, t.isActive),
+    // Note: Additional constraints created in migration:
+    // 1. Partial unique index: Only 1 active goal per type per user
+    //    CREATE UNIQUE INDEX "goals_by_user_type_active_unique_idx"
+    //    ON "goals" USING btree ("user_id", "type") WHERE "is_active" = true;
+    // 2. Trigger function: Maximum 3 active goals per user total
+    //    CREATE TRIGGER goals_max_active_trigger ...
   ],
 );
 

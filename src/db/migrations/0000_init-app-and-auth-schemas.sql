@@ -74,4 +74,20 @@ ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("
 ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "goals_by_user_idx" ON "goals" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "goals_by_user_type_active_idx" ON "goals" USING btree ("user_id","type","is_active");--> statement-breakpoint
-CREATE UNIQUE INDEX "logs_by_user_day_idx" ON "logs" USING btree ("user_id","day");
+CREATE UNIQUE INDEX "goals_by_user_type_active_unique_idx" ON "goals" USING btree ("user_id","type") WHERE "is_active" = true;--> statement-breakpoint
+CREATE UNIQUE INDEX "logs_by_user_day_idx" ON "logs" USING btree ("user_id","day");--> statement-breakpoint
+CREATE OR REPLACE FUNCTION check_max_active_goals()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.is_active = true THEN
+    IF (SELECT COUNT(*) FROM goals WHERE user_id = NEW.user_id AND is_active = true AND id != COALESCE(NEW.id, 0)) >= 3 THEN
+      RAISE EXCEPTION 'User can have maximum 3 active goals';
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;--> statement-breakpoint
+CREATE TRIGGER goals_max_active_trigger
+  BEFORE INSERT OR UPDATE ON goals
+  FOR EACH ROW
+  EXECUTE FUNCTION check_max_active_goals();
