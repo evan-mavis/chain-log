@@ -36,7 +36,11 @@ export const goals = pgTable(
   },
   (t) => [
     index("goals_by_user_idx").on(t.userId),
-    uniqueIndex("goals_by_user_type_idx").on(t.userId, t.type),
+    uniqueIndex("goals_by_user_type_active_idx").on(
+      t.userId,
+      t.type,
+      t.isActive,
+    ),
   ],
 );
 
