@@ -2,11 +2,15 @@ import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import ActiveGoals from "./ActiveGoals";
 import CompletedGoals from "./CompletedGoals";
-import { getActiveGoals } from "@/app/dashboard/services/goal";
+import {
+  getActiveGoals,
+  getCompletedGoals,
+} from "@/app/dashboard/services/goal";
 import type { ActiveGoalsData } from "@/types/goals";
 
 export default async function GoalTabs({ className }: { className?: string }) {
   const activeGoals = (await getActiveGoals()) as ActiveGoalsData | null;
+  const completedGoals = await getCompletedGoals();
 
   return (
     <Tabs
@@ -20,7 +24,7 @@ export default async function GoalTabs({ className }: { className?: string }) {
         <ActiveGoals activeGoals={activeGoals} />
       </TabsContent>
       <TabsContent value="completed" className="w-full">
-        <CompletedGoals />
+        <CompletedGoals completedGoals={completedGoals} />
       </TabsContent>
     </Tabs>
   );

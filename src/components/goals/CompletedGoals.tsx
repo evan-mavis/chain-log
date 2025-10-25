@@ -1,7 +1,13 @@
 "use client";
 
 import { useMemo, useState, type ReactNode } from "react";
-import { Calendar as CalendarIcon, Filter, Search, Activity, Check } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  Filter,
+  Search,
+  Activity,
+  Check,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -28,88 +34,11 @@ type CompletedGoal = {
   completedAt: string;
 };
 
-const mockCompleted: CompletedGoal[] = [
-  {
-    id: "1",
-    value: "Launch v1 of the app",
-    type: "Short-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "2",
-    value: "Offer letter from dream company",
-    type: "Long-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "3",
-    value: "30-day streak maintained",
-    type: "Daily",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "4",
-    value: "Refactored calendar component",
-    type: "Short-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "5",
-    value: "First paid user",
-    type: "Long-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "6",
-    value: "Shipped stats bar",
-    type: "Short-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "7",
-    value: "100 commits streak",
-    type: "Daily",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "8",
-    value: "Improved accessibility across app",
-    type: "Short-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "9",
-    value: "Optimized build times",
-    type: "Short-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "10",
-    value: "Integrated confetti interaction",
-    type: "Short-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "11",
-    value: "Set up CI for lint checks",
-    type: "Short-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "12",
-    value: "Hit 1,000 DAU milestone",
-    type: "Long-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-  {
-    id: "13",
-    value: "Fixed layout shift on tab change",
-    type: "Short-term",
-    completedAt: new Date().toLocaleDateString(),
-  },
-];
-
-export default function CompletedGoals({ headerAction }: { headerAction?: ReactNode }) {
+export default function CompletedGoals({
+  completedGoals,
+}: {
+  completedGoals: CompletedGoal[];
+}) {
   const [search, setSearch] = useState("");
   const [type, setType] = useState<"All" | CompletedGoal["type"]>("All");
 
@@ -139,18 +68,27 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
   };
 
   const filtered = useMemo(() => {
-    return mockCompleted.filter((g) => {
-      if (search && !g.value.toLowerCase().includes(search.toLowerCase())) return false;
+    return completedGoals.filter((g) => {
+      if (search && !g.value.toLowerCase().includes(search.toLowerCase()))
+        return false;
       if (type !== "All" && g.type !== type) return false;
       if (fromDate || toDate) {
         const d = new Date(g.completedAt);
         const normalized = new Date(d.getFullYear(), d.getMonth(), d.getDate());
         if (fromDate) {
-          const f = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+          const f = new Date(
+            fromDate.getFullYear(),
+            fromDate.getMonth(),
+            fromDate.getDate(),
+          );
           if (normalized < f) return false;
         }
         if (toDate) {
-          const t = new Date(toDate.getFullYear(), toDate.getMonth(), toDate.getDate());
+          const t = new Date(
+            toDate.getFullYear(),
+            toDate.getMonth(),
+            toDate.getDate(),
+          );
           if (normalized > t) return false;
         }
       }
@@ -159,34 +97,47 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
   }, [search, type, fromDate, toDate]);
 
   return (
-    <Card className="scrollbar-thin max-h-[37vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pb-2 pt-0">
+    <Card className="scrollbar-thin max-h-[37vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pt-0 pb-2">
       <CardHeader className="text-popover-foreground bg-card sticky top-0 z-10 flex items-center justify-between gap-2 border-b-2 py-2">
         <TabsList className="shrink-0">
           <TabsTrigger value="active" aria-label="Active" className="gap-2">
-            <span className="sm:hidden inline-flex"><Activity className="size-4" /></span>
+            <span className="inline-flex sm:hidden">
+              <Activity className="size-4" />
+            </span>
             <span className="hidden sm:inline">Active</span>
           </TabsTrigger>
-          <TabsTrigger value="completed" aria-label="Completed" className="gap-2">
-            <span className="sm:hidden inline-flex"><Check className="size-4" /></span>
+          <TabsTrigger
+            value="completed"
+            aria-label="Completed"
+            className="gap-2"
+          >
+            <span className="inline-flex sm:hidden">
+              <Check className="size-4" />
+            </span>
             <span className="hidden sm:inline">Completed</span>
           </TabsTrigger>
         </TabsList>
-        <CardAction className="self-center shrink-0">
+        <CardAction className="shrink-0 self-center">
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" size="icon" aria-label="Filters">
                 <Filter className="size-4" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80" side="top" align="end" sideOffset={8}>
+            <PopoverContent
+              className="w-80"
+              side="top"
+              align="end"
+              sideOffset={8}
+            >
               <div className="grid gap-4">
                 {/* Search goals */}
                 <div className="space-y-2">
-                  <h4 className="font-medium leading-none">Search Goals</h4>
+                  <h4 className="leading-none font-medium">Search Goals</h4>
                   <div className="relative">
-                    <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                    <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
                     <Input
-                      className="pl-9 h-9"
+                      className="h-9 pl-9"
                       placeholder="Search by text..."
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
@@ -195,7 +146,7 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
                 </div>
                 {/* Filters */}
                 <div className="space-y-2">
-                  <h4 className="font-medium leading-none">Filters</h4>
+                  <h4 className="leading-none font-medium">Filters</h4>
                 </div>
                 <div className="grid gap-3">
                   {/* Date range (shadcn-style input + popover calendar) */}
@@ -204,7 +155,9 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
                     <div className="grid grid-cols-2 gap-2">
                       {/* From */}
                       <div className="grid gap-1">
-                        <span className="text-xs text-muted-foreground">From</span>
+                        <span className="text-muted-foreground text-xs">
+                          From
+                        </span>
                         <div className="relative">
                           <Input
                             value={fromValue}
@@ -235,7 +188,12 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
                                 <CalendarIcon className="size-3.5" />
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto overflow-hidden p-0" align="end" alignOffset={-8} sideOffset={10}>
+                            <PopoverContent
+                              className="w-auto overflow-hidden p-0"
+                              align="end"
+                              alignOffset={-8}
+                              sideOffset={10}
+                            >
                               <Calendar
                                 mode="single"
                                 selected={fromDate}
@@ -254,7 +212,9 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
                       </div>
                       {/* To */}
                       <div className="grid gap-1">
-                        <span className="text-xs text-muted-foreground">To</span>
+                        <span className="text-muted-foreground text-xs">
+                          To
+                        </span>
                         <div className="relative">
                           <Input
                             value={toValue}
@@ -285,7 +245,12 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
                                 <CalendarIcon className="size-3.5" />
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto overflow-hidden p-0" align="end" alignOffset={-8} sideOffset={10}>
+                            <PopoverContent
+                              className="w-auto overflow-hidden p-0"
+                              align="end"
+                              alignOffset={-8}
+                              sideOffset={10}
+                            >
                               <Calendar
                                 mode="single"
                                 selected={toDate}
@@ -313,9 +278,17 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
                           {type === "All" ? "All Types" : type}
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start" className="min-w-[12rem]">
-                        {(["All", "Long-term", "Short-term", "Daily"] as const).map((t) => (
-                          <DropdownMenuItem key={t} onSelect={() => setType(t as any)}>
+                      <DropdownMenuContent
+                        align="start"
+                        className="min-w-[12rem]"
+                      >
+                        {(
+                          ["All", "Long-term", "Short-term", "Daily"] as const
+                        ).map((t) => (
+                          <DropdownMenuItem
+                            key={t}
+                            onSelect={() => setType(t as any)}
+                          >
                             {t === "All" ? "All Types" : t}
                           </DropdownMenuItem>
                         ))}
@@ -326,25 +299,33 @@ export default function CompletedGoals({ headerAction }: { headerAction?: ReactN
               </div>
             </PopoverContent>
           </Popover>
-          </CardAction>
+        </CardAction>
       </CardHeader>
       <CardContent className="px-0 py-2">
-        <ul className="divide-y">
-          {filtered.map((g) => (
-            <li
-              key={g.id}
-              className="grid grid-cols-1 gap-2 px-6 py-3 sm:grid-cols-[1fr_auto_auto] sm:gap-4"
-            >
-              <span className="order-1 sm:order-none">{g.value}</span>
-              <span className="text-muted-foreground sm:justify-self-end">
-                {g.type}
-              </span>
-              <time className="text-muted-foreground sm:justify-self-end">
-                {g.completedAt}
-              </time>
-            </li>
-          ))}
-        </ul>
+        {filtered.length === 0 ? (
+          <div className="text-muted-foreground px-6 py-8 text-center">
+            {completedGoals.length === 0
+              ? "No completed goals yet. Complete some goals to see them here!"
+              : "No goals match your current filters."}
+          </div>
+        ) : (
+          <ul className="divide-y">
+            {filtered.map((g) => (
+              <li
+                key={g.id}
+                className="grid grid-cols-1 gap-2 px-6 py-3 sm:grid-cols-[1fr_auto_auto] sm:gap-4"
+              >
+                <span className="order-1 sm:order-none">{g.value}</span>
+                <span className="text-muted-foreground sm:justify-self-end">
+                  {g.type}
+                </span>
+                <time className="text-muted-foreground sm:justify-self-end">
+                  {g.completedAt}
+                </time>
+              </li>
+            ))}
+          </ul>
+        )}
       </CardContent>
     </Card>
   );
