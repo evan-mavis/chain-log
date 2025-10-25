@@ -74,17 +74,19 @@ export default function ActiveGoals({
   );
 
   const save = useCallback((key: GoalKey) => {
-    // Server action handles the save, just update local state
-    setGoals((gs) => ({
-      ...gs,
-      [key]: {
-        ...gs[key],
-        value: gs[key].draft ?? gs[key].value,
-        draft: undefined,
-        editing: false,
-        highlightText: false,
-      },
-    }));
+    setGoals((gs) => {
+      const newGoals = {
+        ...gs,
+        [key]: {
+          ...gs[key],
+          value: gs[key].draft ?? gs[key].value,
+          draft: undefined,
+          editing: false,
+          highlightText: false,
+        },
+      };
+      return newGoals;
+    });
   }, []);
 
   const cancel = useCallback(
@@ -128,6 +130,21 @@ export default function ActiveGoals({
     [],
   );
 
+  const handleCompleteSuccess = useCallback(
+    (key: GoalKey) =>
+      setGoals((gs) => ({
+        ...gs,
+        [key]: {
+          ...gs[key],
+          completing: false,
+          editing: true,
+          draft: "",
+          highlightText: true,
+        },
+      })),
+    [],
+  );
+
   const renderRow = (key: GoalKey) => (
     <GoalRow
       key={goals[key].id}
@@ -143,6 +160,7 @@ export default function ActiveGoals({
       onConfirmComplete={confirmComplete}
       onCancelComplete={cancelComplete}
       onSaveSuccess={save}
+      onCompleteSuccess={handleCompleteSuccess}
     />
   );
 

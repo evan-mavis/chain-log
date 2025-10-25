@@ -2,9 +2,11 @@
 
 import { db } from "@/db/db";
 import { goals } from "@/db/schemas/schema";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getSessionUserId } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
+import { GoalInputSchema, CompleteGoalSchema } from "@/validation/goals";
+import { sql } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export type GoalFormState = {
   status: "idle" | "success" | "error";
@@ -23,39 +25,111 @@ export async function upsertActiveGoal(
   _prev: GoalFormState,
   formData: FormData,
 ): Promise<GoalFormState> {
-  const session = await auth.api.getSession({ headers: await headers() });
-  const userId = session?.user?.id;
+  const userId = await getSessionUserId();
 
   if (!userId) return { status: "error", message: "Not authenticated" };
 
   const goalType = formData.get("goalType")?.toString();
   const description = formData.get("description")?.toString();
 
-  if (!goalType || !description) {
-    return { status: "error", message: "Missing goal type or description" };
+  const validated = GoalInputSchema.safeParse({ goalType, description });
+
+  if (!validated.success) {
+    return {
+      status: "error",
+      message: validated.error.issues.map((issue) => issue.message).join(", "),
+    };
   }
 
-  const type = mapKeyToType(goalType as "long" | "short" | "daily");
+  const { goalType: validatedGoalType, description: validatedDescription } =
+    validated.data;
+  const type = mapKeyToType(validatedGoalType);
 
   try {
-    await db
-      .insert(goals)
-      .values({
+    const existingActiveGoal = await db.query.goals.findFirst({
+      where: (t, { and, eq }) =>
+        and(eq(t.userId, userId), eq(t.type, type), eq(t.isActive, true)),
+    });
+
+    if (existingActiveGoal) {
+      await db.execute(
+        sql`
+          UPDATE goals 
+          SET description = ${validatedDescription}, 
+              is_active = true, 
+              updated_at = ${new Date()}
+          WHERE user_id = ${userId} AND type = ${type} AND is_active = true
+        ` as any,
+      );
+    } else {
+      await db.insert(goals).values({
         userId,
         type,
-        description,
+        description: validatedDescription,
         isActive: true,
         createdAt: new Date(),
         updatedAt: new Date(),
-      })
-      .onConflictDoUpdate({
-        target: [goals.userId, goals.type],
-        set: { description, isActive: true, updatedAt: new Date() },
       });
+    }
 
     revalidatePath("/dashboard");
     return { status: "success" };
   } catch (e) {
-    return { status: "error", message: "Failed to save goal" };
+    console.error("Failed to save goal", e);
+    return {
+      status: "error",
+      message: "Failed to save goal",
+    };
+  }
+}
+
+export async function completeGoal(
+  _prev: GoalFormState,
+  formData: FormData,
+): Promise<GoalFormState> {
+  const userId = await getSessionUserId();
+
+  if (!userId) return { status: "error", message: "Not authenticated" };
+
+  const goalType = formData.get("goalType")?.toString();
+
+  const validated = CompleteGoalSchema.safeParse({ goalType });
+
+  if (!validated.success) {
+    return {
+      status: "error",
+      message: validated.error.issues.map((issue) => issue.message).join(", "),
+    };
+  }
+
+  const { goalType: validatedGoalType } = validated.data;
+  const type = mapKeyToType(validatedGoalType);
+
+  try {
+    const existingGoal = await db.query.goals.findFirst({
+      where: (t, { and, eq }) =>
+        and(eq(t.userId, userId), eq(t.type, type), eq(t.isActive, true)),
+    });
+
+    if (!existingGoal) {
+      return { status: "error", message: "No active goal found to complete" };
+    }
+
+    if (!existingGoal.description.trim()) {
+      return { status: "error", message: "Cannot complete an empty goal" };
+    }
+
+    await db.execute(
+      sql`
+      UPDATE goals 
+      SET is_active = false, updated_at = ${new Date()}
+      WHERE user_id = ${userId} AND type = ${type} AND is_active = true
+    ` as any,
+    );
+
+    revalidatePath("/dashboard");
+    return { status: "success" };
+  } catch (e) {
+    return { status: "error", message: "Failed to complete goal" };
   }
 }
