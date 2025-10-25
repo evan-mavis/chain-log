@@ -3,6 +3,7 @@
 import { Calendar } from "../ui/calendar";
 import DayButton from "./components/DayButton";
 import type { LogDTO } from "@/types/logs";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 type Props = {
   logs?: LogDTO[];
@@ -18,7 +19,30 @@ function addDays(date: Date, delta: number) {
   return d;
 }
 
+function fmtMonth(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
+
 export default function AppCalendar({ logs = [] }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const rangeEnd = searchParams.get("rangeEnd");
+
+  const now = new Date();
+  const endMonth = rangeEnd
+    ? new Date(
+        Number(rangeEnd.split("-")[0]),
+        Number(rangeEnd.split("-")[1]) - 1,
+        1,
+      )
+    : new Date(now.getFullYear(), now.getMonth(), 1);
+  const firstMonth = new Date(
+    endMonth.getFullYear(),
+    endMonth.getMonth() - 2,
+    1,
+  );
+
   const loggedSet = new Set(logs.map((l) => l.day));
   const logsByDay = new Map(logs.map((l) => [l.day, l] as const));
 
@@ -42,6 +66,12 @@ export default function AppCalendar({ logs = [] }: Props) {
           mode="single"
           showOutsideDays={false}
           numberOfMonths={1}
+          month={endMonth}
+          onMonthChange={(date) => {
+            const params = new URLSearchParams(searchParams?.toString());
+            params.set("rangeEnd", fmtMonth(date));
+            router.push(`${pathname}?${params.toString()}`, { scroll: false });
+          }}
           modifiers={{
             achieved: hasLog,
             streakLeft: (date) =>
@@ -60,9 +90,13 @@ export default function AppCalendar({ logs = [] }: Props) {
           mode="single"
           showOutsideDays={false}
           numberOfMonths={3}
-          defaultMonth={
-            new Date(new Date().getFullYear(), new Date().getMonth() - 2, 1)
-          }
+          month={firstMonth}
+          onMonthChange={(date) => {
+            const params = new URLSearchParams(searchParams?.toString());
+            const end = new Date(date.getFullYear(), date.getMonth() + 2, 1);
+            params.set("rangeEnd", fmtMonth(end));
+            router.push(`${pathname}?${params.toString()}`, { scroll: false });
+          }}
           modifiers={{
             achieved: hasLog,
             streakLeft: (date) =>

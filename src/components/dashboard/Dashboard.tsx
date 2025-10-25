@@ -10,13 +10,16 @@ import { getLogsInRange } from "@/app/dashboard/services/log";
 export default async function Dashboard({
   currentLog,
   mode,
+  rangeEnd,
 }: {
   currentLog: CurrentLog;
   mode: "real" | "demo";
+  rangeEnd?: string;
 }) {
   const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth() - 2, 1);
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const endMonth = rangeEnd ? new Date(`${rangeEnd}-01T00:00:00`) : now;
+  const start = new Date(endMonth.getFullYear(), endMonth.getMonth() - 2, 1);
+  const end = new Date(endMonth.getFullYear(), endMonth.getMonth() + 1, 0);
 
   const prefetchLogs = await getLogsInRange(start, end);
 
