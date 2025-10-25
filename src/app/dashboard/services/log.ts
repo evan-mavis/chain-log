@@ -16,7 +16,5 @@ export async function getCurrentLog() {
     where: (t, { and, eq }) => and(eq(t.userId, userId), eq(t.day, dayStr)),
   });
 
-  console.log(log);
-
   return log ?? null;
 }
