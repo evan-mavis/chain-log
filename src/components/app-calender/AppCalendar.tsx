@@ -4,6 +4,8 @@ import { Calendar } from "../ui/calendar";
 import DayButton from "./components/DayButton";
 import type { LogDTO } from "@/types/logs";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useMemo, useTransition, useCallback } from "react";
+import CalendarChevron from "@/components/app-calender/components/CalendarChevron";
 
 type Props = {
   logs?: LogDTO[];
@@ -28,6 +30,7 @@ export default function AppCalendar({ logs = [] }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const rangeEnd = searchParams.get("rangeEnd");
+  const [isNavigating, startTransition] = useTransition();
 
   const now = new Date();
   const endMonth = rangeEnd
@@ -43,14 +46,30 @@ export default function AppCalendar({ logs = [] }: Props) {
     1,
   );
 
-  const loggedSet = new Set(logs.map((l) => l.day));
-  const logsByDay = new Map(logs.map((l) => [l.day, l] as const));
+  const loggedSet = useMemo(() => new Set(logs.map((l) => l.day)), [logs]);
+  const logsByDay = useMemo(
+    () => new Map(logs.map((l) => [l.day, l] as const)),
+    [logs],
+  );
 
-  const InjectedDayButton = (props: any) => (
-    <DayButton
-      {...props}
-      getLogForDate={(date: Date) => logsByDay.get(toKey(date)) ?? null}
-    />
+  const InjectedDayButton = useCallback(
+    (props: any) => (
+      <DayButton
+        {...props}
+        getLogForDate={(date: Date) => logsByDay.get(toKey(date)) ?? null}
+      />
+    ),
+    [logsByDay],
+  );
+
+  const Chevron = useCallback(
+    (props: {
+      className?: string;
+      size?: number;
+      disabled?: boolean;
+      orientation?: "left" | "right" | "down" | "up";
+    }) => <CalendarChevron isNavigating={isNavigating} {...props} />,
+    [isNavigating],
   );
 
   const hasLog = (date: Date) => loggedSet.has(toKey(date));
@@ -70,7 +89,11 @@ export default function AppCalendar({ logs = [] }: Props) {
           onMonthChange={(date) => {
             const params = new URLSearchParams(searchParams?.toString());
             params.set("rangeEnd", fmtMonth(date));
-            router.push(`${pathname}?${params.toString()}`, { scroll: false });
+            startTransition(() => {
+              router.push(`${pathname}?${params.toString()}`, {
+                scroll: false,
+              });
+            });
           }}
           modifiers={{
             achieved: hasLog,
@@ -79,7 +102,7 @@ export default function AppCalendar({ logs = [] }: Props) {
             streakRight: (date) =>
               hasLog(date) && hasNext(date) && date.getDay() !== 6,
           }}
-          components={{ DayButton: InjectedDayButton }}
+          components={{ DayButton: InjectedDayButton, Chevron }}
         />
       </div>
 
@@ -95,7 +118,11 @@ export default function AppCalendar({ logs = [] }: Props) {
             const params = new URLSearchParams(searchParams?.toString());
             const end = new Date(date.getFullYear(), date.getMonth() + 2, 1);
             params.set("rangeEnd", fmtMonth(end));
-            router.push(`${pathname}?${params.toString()}`, { scroll: false });
+            startTransition(() => {
+              router.push(`${pathname}?${params.toString()}`, {
+                scroll: false,
+              });
+            });
           }}
           modifiers={{
             achieved: hasLog,
@@ -104,7 +131,7 @@ export default function AppCalendar({ logs = [] }: Props) {
             streakRight: (date) =>
               hasLog(date) && hasNext(date) && date.getDay() !== 6,
           }}
-          components={{ DayButton: InjectedDayButton }}
+          components={{ DayButton: InjectedDayButton, Chevron }}
         />
       </div>
     </div>
