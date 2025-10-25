@@ -2,15 +2,22 @@ import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import ActiveGoals from "./ActiveGoals";
 import CompletedGoals from "./CompletedGoals";
+import { getActiveGoals } from "@/app/dashboard/services/goal";
+import type { ActiveGoalsData } from "@/types/goals";
 
-export default function GoalTabs({ className }: { className?: string }) {
+export default async function GoalTabs({ className }: { className?: string }) {
+  const activeGoals = (await getActiveGoals()) as ActiveGoalsData | null;
+
   return (
     <Tabs
-      className={cn("mt-4 flex w-full flex-col sm:ml-6 sm:mt-0 mb-3", className)}
+      className={cn(
+        "mt-4 mb-3 flex w-full flex-col sm:mt-0 sm:ml-6",
+        className,
+      )}
       defaultValue="active"
     >
       <TabsContent value="active" className="w-full">
-        <ActiveGoals />
+        <ActiveGoals activeGoals={activeGoals} />
       </TabsContent>
       <TabsContent value="completed" className="w-full">
         <CompletedGoals />

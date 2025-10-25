@@ -13,48 +13,48 @@ import {
   Target,
   Trophy,
   Activity,
-  Sparkles,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { TabsList, TabsTrigger } from "../ui/tabs";
 import { ConfettiButton } from "../ui/confetti";
 import { ConfettiEmoji } from "../ui/confetti-emoji";
 
-type GoalItem = {
-  id: string;
-  label: "Long-term" | "Short-term" | "Daily";
-  value: string;
-  draft?: string;
-  editing?: boolean;
-  completing?: boolean;
-  highlightText?: boolean;
-};
+import type { GoalItem, GoalKey, ActiveGoalsData } from "@/types/goals";
 
-type GoalKey = "long" | "short" | "daily";
+function toInitialGoals(
+  active: ActiveGoalsData | null,
+): Record<GoalKey, GoalItem> {
+  return {
+    long: {
+      id: "long",
+      label: "Long-term",
+      value: active?.long ?? "",
+    },
+    short: {
+      id: "short",
+      label: "Short-term",
+      value: active?.short ?? "",
+    },
+    daily: {
+      id: "daily",
+      label: "Daily",
+      value: active?.daily ?? "",
+    },
+  };
+}
 
-const initialGoals: Record<GoalKey, GoalItem> = {
-  long: {
-    id: "long",
-    label: "Long-term",
-    value: "Break into a big-tech or high profile startup.",
-  },
-  short: {
-    id: "short",
-    label: "Short-term",
-    value: "Ship a polished feature in this app each week.",
-  },
-  daily: {
-    id: "daily",
-    label: "Daily",
-    value: "Keep the chain — one concrete step every day.",
-  },
-};
+export default function ActiveGoals({
+  activeGoals,
+}: {
+  activeGoals: ActiveGoalsData | null;
+}) {
+  const [goals, setGoals] = useState<Record<GoalKey, GoalItem>>(
+    toInitialGoals(activeGoals),
+  );
+  const textareaRefs = useRef<{
+    [key in GoalKey]?: HTMLTextAreaElement | null;
+  }>({});
 
-export default function ActiveGoals() {
-  const [goals, setGoals] = useState<Record<GoalKey, GoalItem>>(initialGoals);
-  const textareaRefs = useRef<{ [key in GoalKey]?: HTMLTextAreaElement | null }>({});
-
-  // Handle text selection when transitioning from completion to edit
   useEffect(() => {
     (Object.keys(goals) as GoalKey[]).forEach((key) => {
       const goal = goals[key];
@@ -69,10 +69,16 @@ export default function ActiveGoals() {
   }, [goals]);
 
   const startEdit = (key: GoalKey) =>
-    setGoals((gs) => ({ ...gs, [key]: { ...gs[key], editing: true, draft: gs[key].value } }));
+    setGoals((gs) => ({
+      ...gs,
+      [key]: { ...gs[key], editing: true, draft: gs[key].value },
+    }));
 
   const updateDraft = (key: GoalKey, v: string) =>
-    setGoals((gs) => ({ ...gs, [key]: { ...gs[key], draft: v, highlightText: false } }));
+    setGoals((gs) => ({
+      ...gs,
+      [key]: { ...gs[key], draft: v, highlightText: false },
+    }));
 
   const save = (key: GoalKey) =>
     setGoals((gs) => ({
@@ -87,7 +93,15 @@ export default function ActiveGoals() {
     }));
 
   const cancel = (key: GoalKey) =>
-    setGoals((gs) => ({ ...gs, [key]: { ...gs[key], draft: undefined, editing: false, highlightText: false } }));
+    setGoals((gs) => ({
+      ...gs,
+      [key]: {
+        ...gs[key],
+        draft: undefined,
+        editing: false,
+        highlightText: false,
+      },
+    }));
 
   const startComplete = (key: GoalKey) =>
     setGoals((gs) => ({ ...gs, [key]: { ...gs[key], completing: true } }));
@@ -116,7 +130,10 @@ export default function ActiveGoals() {
   const renderRow = (key: GoalKey) => {
     const g = goals[key];
     return (
-      <div key={g.id} className="grid grid-cols-[1fr_auto] items-start gap-2 px-6 py-3 sm:gap-3">
+      <div
+        key={g.id}
+        className="grid grid-cols-[1fr_auto] items-start gap-2 px-6 py-3 sm:gap-3"
+      >
         <dt className="text-muted-foreground flex items-center gap-2">
           {iconFor(g.label)}
           {g.label}
@@ -124,32 +141,62 @@ export default function ActiveGoals() {
         <div className="flex items-center justify-end gap-2">
           {g.editing ? (
             <>
-              <Button variant="outline" size="icon-sm" aria-label="Save goal" onClick={() => save(key)}>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Save goal"
+                onClick={() => save(key)}
+              >
                 <Check className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="icon-sm" aria-label="Cancel editing" onClick={() => cancel(key)}>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Cancel editing"
+                onClick={() => cancel(key)}
+              >
                 <X className="h-4 w-4" />
               </Button>
             </>
           ) : g.completing ? (
             <>
               <ConfettiEmoji size="icon-sm" variant="outline">
-                <Button variant="outline" size="icon-sm" aria-label="Confirm completion" onClick={() => confirmComplete(key)}>
+                <Button
+                  variant="outline"
+                  size="icon-sm"
+                  aria-label="Confirm completion"
+                  onClick={() => confirmComplete(key)}
+                >
                   <Check className="h-4 w-4" />
                 </Button>
               </ConfettiEmoji>
-              <Button variant="outline" size="icon-sm" aria-label="Cancel completion" onClick={() => cancelComplete(key)}>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Cancel completion"
+                onClick={() => cancelComplete(key)}
+              >
                 <X className="h-4 w-4" />
               </Button>
             </>
           ) : (
             <>
-              <Button variant="outline" size="icon-sm" aria-label="Edit goal" onClick={() => startEdit(key)}>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label="Edit goal"
+                onClick={() => startEdit(key)}
+              >
                 <SquarePen className="h-4 w-4" />
               </Button>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon-sm" aria-label="Complete goal" onClick={() => startComplete(key)}>
+                  <Button
+                    variant="outline"
+                    size="icon-sm"
+                    aria-label="Complete goal"
+                    onClick={() => startComplete(key)}
+                  >
                     <Trophy className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
@@ -158,11 +205,16 @@ export default function ActiveGoals() {
             </>
           )}
         </div>
-        <dd className={(g.editing ? "animate-in fade-in-0 duration-300 " : "") + "col-span-2"}>
+        <dd
+          className={
+            (g.editing ? "animate-in fade-in-0 duration-300 " : "") +
+            "col-span-2"
+          }
+        >
           {g.editing ? (
             <div>
               {g.highlightText && (
-                <p className="mb-2 text-sm text-muted-foreground">
+                <p className="text-muted-foreground mb-2 text-sm">
                   Goal completed! Enter your new {g.label.toLowerCase()} goal:
                 </p>
               )}
@@ -177,7 +229,9 @@ export default function ActiveGoals() {
               />
             </div>
           ) : (
-            <span>{g.value}</span>
+            <span className={g.value ? "" : "text-muted-foreground"}>
+              {g.value || "-"}
+            </span>
           )}
         </dd>
       </div>
@@ -189,11 +243,19 @@ export default function ActiveGoals() {
       <CardHeader className="text-popover-foreground bg-card sticky top-0 z-10 flex items-center gap-2 border-b-2 py-2">
         <TabsList className="shrink-0">
           <TabsTrigger value="active" aria-label="Active" className="gap-2">
-            <span className="sm:hidden inline-flex"><Activity className="size-4" /></span>
+            <span className="inline-flex sm:hidden">
+              <Activity className="size-4" />
+            </span>
             <span className="hidden sm:inline">Active</span>
           </TabsTrigger>
-          <TabsTrigger value="completed" aria-label="Completed" className="gap-2">
-            <span className="sm:hidden inline-flex"><Check className="size-4" /></span>
+          <TabsTrigger
+            value="completed"
+            aria-label="Completed"
+            className="gap-2"
+          >
+            <span className="inline-flex sm:hidden">
+              <Check className="size-4" />
+            </span>
             <span className="hidden sm:inline">Completed</span>
           </TabsTrigger>
         </TabsList>
