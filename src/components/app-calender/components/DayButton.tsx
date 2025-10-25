@@ -28,12 +28,14 @@ export default function DayButton({
 
   const today = new Date();
   const isFutureDate = day.date > today;
+  const hasLogForDate = Boolean(getLogForDate ? getLogForDate(day.date) : null);
+  const isDisabled = isFutureDate || !hasLogForDate;
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!isFutureDate) {
+    if (!isDisabled) {
       setOpen(true);
     }
   };
@@ -45,13 +47,13 @@ export default function DayButton({
           variant="ghost"
           className={cn(
             "relative h-full w-full transition-colors",
-            isFutureDate
+            isDisabled
               ? "cursor-not-allowed opacity-50"
               : "hover:rounded-md hover:bg-red-100 hover:text-red-900 dark:hover:bg-red-900/20 dark:hover:text-red-100",
             className,
           )}
           onClick={handleClick}
-          disabled={isFutureDate}
+          disabled={isDisabled}
           {...buttonProps}
         >
           {(modifiers?.achieved ?? false) ? (
