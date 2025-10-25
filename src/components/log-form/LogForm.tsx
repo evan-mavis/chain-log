@@ -84,57 +84,59 @@ export default function LogForm({ className, currentLog, date }: LogFormProps) {
         value={textareaValue}
         onChange={(e) => handleTextareaChange(e.target.value)}
       />
-      <div className="m-4 flex flex-nowrap items-center justify-center gap-3">
-        <ToggleGroup
-          variant="outline"
-          className="border-1"
-          type="single"
-          value={moodValue}
-          onValueChange={handleMoodChange}
-        >
-          <ToggleGroupItem value="sad">
-            <Frown className="text-red-700" />
-          </ToggleGroupItem>
-          <ToggleGroupItem value="meh">
-            <Meh className="text-yellow-500" />
-          </ToggleGroupItem>
-          <ToggleGroupItem value="happy">
-            <Laugh className="text-green-500" />
-          </ToggleGroupItem>
-        </ToggleGroup>
-        <div className="shrink-0">
-          {isCurrentDate && !currentLog ? (
-            <ConfettiSideCannons
-              disabled={(Boolean(currentLog) && !isDirty) || pending}
-            >
-              {pending ? (
-                <>
-                  <Spinner className="mr-2" />
-                  Saving...
-                </>
-              ) : (
-                getButtonText()
-              )}
-            </ConfettiSideCannons>
-          ) : (
-            <Button
-              type="submit"
-              disabled={(Boolean(currentLog) && !isDirty) || pending}
-              variant="outline"
-            >
-              {pending ? (
-                <>
-                  <Spinner className="mr-2" />
-                  Saving...
-                </>
-              ) : (
-                getButtonText()
-              )}
-            </Button>
-          )}
+      <div className="m-4 flex flex-col items-center justify-center gap-2">
+        <div className="flex flex-nowrap items-center justify-center gap-3">
+          <ToggleGroup
+            variant="outline"
+            className="border-1"
+            type="single"
+            value={moodValue}
+            onValueChange={handleMoodChange}
+          >
+            <ToggleGroupItem value="sad">
+              <Frown className="text-red-700" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="meh">
+              <Meh className="text-yellow-500" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="happy">
+              <Laugh className="text-green-500" />
+            </ToggleGroupItem>
+          </ToggleGroup>
+          <div className="shrink-0">
+            {isCurrentDate && !currentLog ? (
+              <ConfettiSideCannons
+                disabled={(Boolean(currentLog) && !isDirty) || pending}
+              >
+                {pending ? (
+                  <>
+                    <Spinner className="mr-2" />
+                    Saving...
+                  </>
+                ) : (
+                  getButtonText()
+                )}
+              </ConfettiSideCannons>
+            ) : (
+              <Button
+                type="submit"
+                disabled={(Boolean(currentLog) && !isDirty) || pending}
+                variant="outline"
+              >
+                {pending ? (
+                  <>
+                    <Spinner className="mr-2" />
+                    Saving...
+                  </>
+                ) : (
+                  getButtonText()
+                )}
+              </Button>
+            )}
+          </div>
         </div>
         {state.status === "error" ? (
-          <p className="mt-2 text-sm text-red-600">
+          <p className="mt-2 text-center text-sm text-red-600">
             {state.message ?? "Something went wrong"}
           </p>
         ) : null}
