@@ -18,3 +18,36 @@ export async function getCurrentLog() {
 
   return log ?? null;
 }
+
+export async function getLogsInRange(
+  start: Date,
+  end: Date,
+): Promise<
+  { day: string; mood: "happy" | "sad" | "meh"; notes: string | null }[]
+> {
+  const userId = await getSessionUserId();
+
+  if (!userId) {
+    return [] as {
+      day: string;
+      mood: "happy" | "sad" | "meh";
+      notes: string | null;
+    }[];
+  }
+
+  const startStr = formatDateForDB(start);
+  const endStr = formatDateForDB(end);
+
+  const logs = await db.query.logs.findMany({
+    where: (t, { and, eq, gte, lte }) =>
+      and(eq(t.userId, userId), gte(t.day, startStr), lte(t.day, endStr)),
+    columns: { day: true, mood: true, notes: true },
+    orderBy: (t, { asc }) => [asc(t.day)],
+  });
+
+  return logs.map((l) => ({
+    day: l.day,
+    mood: l.mood,
+    notes: l.notes ?? null,
+  }));
+}

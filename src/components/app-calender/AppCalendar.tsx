@@ -2,9 +2,10 @@
 
 import { Calendar } from "../ui/calendar";
 import DayButton from "./components/DayButton";
+import type { LogDTO } from "@/types/logs";
 
 type Props = {
-  completedDates?: Date[];
+  logs?: LogDTO[];
 };
 
 function toKey(date: Date) {
@@ -17,20 +18,20 @@ function addDays(date: Date, delta: number) {
   return d;
 }
 
-export default function AppCalendar({ completedDates = [] }: Props) {
-  const achievedSet = new Set(completedDates.map(toKey));
+export default function AppCalendar({ logs = [] }: Props) {
+  const loggedSet = new Set(logs.map((l) => l.day));
+  const logsByDay = new Map(logs.map((l) => [l.day, l] as const));
 
-  // const isAchieved = (date: Date) => achievedSet.has(toKey(date));
-  const isAchieved = (date: Date) => {
-    const key = toKey(date);
-    let hash = 0;
-    for (let i = 0; i < key.length; i++) {
-      hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
-    }
-    return hash % 4 !== 0;
-  };
-  const hasPrev = (date: Date) => isAchieved(addDays(date, -1));
-  const hasNext = (date: Date) => isAchieved(addDays(date, 1));
+  const InjectedDayButton = (props: any) => (
+    <DayButton
+      {...props}
+      getLogForDate={(date: Date) => logsByDay.get(toKey(date)) ?? null}
+    />
+  );
+
+  const hasLog = (date: Date) => loggedSet.has(toKey(date));
+  const hasPrev = (date: Date) => hasLog(addDays(date, -1));
+  const hasNext = (date: Date) => hasLog(addDays(date, 1));
 
   return (
     <div className="w-full">
@@ -42,16 +43,16 @@ export default function AppCalendar({ completedDates = [] }: Props) {
           showOutsideDays={false}
           numberOfMonths={1}
           modifiers={{
-            achieved: isAchieved,
+            achieved: hasLog,
             streakLeft: (date) =>
-              isAchieved(date) && hasPrev(date) && date.getDay() !== 0,
+              hasLog(date) && hasPrev(date) && date.getDay() !== 0,
             streakRight: (date) =>
-              isAchieved(date) && hasNext(date) && date.getDay() !== 6,
+              hasLog(date) && hasNext(date) && date.getDay() !== 6,
           }}
-          components={{ DayButton: DayButton }}
+          components={{ DayButton: InjectedDayButton }}
         />
       </div>
-      
+
       {/* Desktop: Three month view */}
       <div className="hidden md:block">
         <Calendar
@@ -59,15 +60,17 @@ export default function AppCalendar({ completedDates = [] }: Props) {
           mode="single"
           showOutsideDays={false}
           numberOfMonths={3}
-          defaultMonth={new Date(new Date().getFullYear(), new Date().getMonth() - 2, 1)}
+          defaultMonth={
+            new Date(new Date().getFullYear(), new Date().getMonth() - 2, 1)
+          }
           modifiers={{
-            achieved: isAchieved,
+            achieved: hasLog,
             streakLeft: (date) =>
-              isAchieved(date) && hasPrev(date) && date.getDay() !== 0,
+              hasLog(date) && hasPrev(date) && date.getDay() !== 0,
             streakRight: (date) =>
-              isAchieved(date) && hasNext(date) && date.getDay() !== 6,
+              hasLog(date) && hasNext(date) && date.getDay() !== 6,
           }}
-          components={{ DayButton: DayButton }}
+          components={{ DayButton: InjectedDayButton }}
         />
       </div>
     </div>

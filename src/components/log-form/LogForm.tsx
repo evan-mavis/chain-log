@@ -12,17 +12,16 @@ import { formatDateForDB } from "@/lib/date-utils";
 import { CurrentLog } from "@/types/logs";
 import { Spinner } from "@/components/ui/spinner";
 
+type MinimalLog = Pick<NonNullable<CurrentLog>, "mood" | "notes">;
+
 type LogFormProps = {
   className?: string;
-  currentLog: CurrentLog;
+  currentLog: MinimalLog | null;
   date?: Date;
 };
 
 export default function LogForm({ className, currentLog, date }: LogFormProps) {
   const currentDate = new Date();
-  const isCurrentDate = date
-    ? date.toDateString() === currentDate.toDateString()
-    : true;
 
   const displayDate = date
     ? date.toLocaleDateString()
@@ -52,7 +51,7 @@ export default function LogForm({ className, currentLog, date }: LogFormProps) {
   };
 
   const getButtonText = () => {
-    if (isCurrentDate && !currentLog) {
+    if (!currentLog) {
       return "Log Today";
     } else {
       return "Save Edits";
@@ -104,7 +103,7 @@ export default function LogForm({ className, currentLog, date }: LogFormProps) {
             </ToggleGroupItem>
           </ToggleGroup>
           <div className="shrink-0">
-            {isCurrentDate && !currentLog ? (
+            {!currentLog ? (
               <ConfettiSideCannons
                 disabled={(Boolean(currentLog) && !isDirty) || pending}
               >
