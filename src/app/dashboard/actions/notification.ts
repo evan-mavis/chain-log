@@ -3,7 +3,6 @@
 import { db } from "@/db/db";
 import { sql } from "drizzle-orm";
 import { getSessionUserId } from "@/lib/auth-helpers";
-import { revalidatePath } from "next/cache";
 import { UpdateEmailNotificationSchema } from "@/validation/notification";
 
 type ActionState = { status: "idle" | "success" | "error"; message?: string };
@@ -20,12 +19,14 @@ export async function updateEmailNotifications(
     time: (formData.get("time") || "").toString() || undefined,
     timezone: (formData.get("timezone") || "").toString() || undefined,
   });
+
   if (!parsed.success) {
     return {
       status: "error",
       message: parsed.error.issues[0]?.message || "Invalid input",
     };
   }
+
   const { optIn, time, timezone } = parsed.data;
 
   await db.execute(
@@ -41,6 +42,5 @@ export async function updateEmailNotifications(
     ` as any,
   );
 
-  revalidatePath("/dashboard");
   return { status: "success" };
 }
