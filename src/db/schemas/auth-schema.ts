@@ -8,6 +8,7 @@ export const user = pgTable("user", {
   image: text("image"),
   emailOptIn: boolean("email_opt_in").default(false).notNull(),
   emailReminderTime: text("email_reminder_time"),
+  emailTimezone: text("email_timezone"),
   emailConsentAt: timestamp("email_consent_at"),
   emailConsentSource: text("email_consent_source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),

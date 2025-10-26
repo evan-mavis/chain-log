@@ -7,6 +7,7 @@ export const TimeHHmm = z
 export const UpdateEmailNotificationSchema = z.object({
   optIn: z.enum(["true", "false"]).transform((v) => v === "true"),
   time: TimeHHmm.optional(),
+  timezone: z.string().min(1).optional(),
 });
 
 export type UpdateEmailNotificationInput = z.infer<

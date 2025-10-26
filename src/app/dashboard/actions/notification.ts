@@ -18,6 +18,7 @@ export async function updateEmailNotifications(
   const parsed = UpdateEmailNotificationSchema.safeParse({
     optIn: (formData.get("optIn") || "false").toString(),
     time: (formData.get("time") || "").toString() || undefined,
+    timezone: (formData.get("timezone") || "").toString() || undefined,
   });
   if (!parsed.success) {
     return {
@@ -25,13 +26,14 @@ export async function updateEmailNotifications(
       message: parsed.error.issues[0]?.message || "Invalid input",
     };
   }
-  const { optIn, time } = parsed.data;
+  const { optIn, time, timezone } = parsed.data;
 
   await db.execute(
     sql`
       update "user" set
         "email_opt_in" = ${optIn},
         "email_reminder_time" = ${time ?? null},
+        "email_timezone" = ${timezone ?? null},
         "email_consent_at" = case when ${optIn} then ${new Date()} else "email_consent_at" end,
         "email_consent_source" = case when ${optIn} then ${"ui:user-preferences"} else "email_consent_source" end,
         "updated_at" = ${new Date()}
