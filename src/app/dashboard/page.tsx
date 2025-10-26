@@ -1,5 +1,5 @@
 import Dashboard from "@/components/dashboard/Dashboard";
-import { getCurrentLog } from "./services/log";
+import { getCurrentLog } from "./queries/log";
 
 export default async function DashboardPage({
   searchParams,

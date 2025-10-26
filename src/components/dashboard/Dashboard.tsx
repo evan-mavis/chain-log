@@ -5,7 +5,7 @@ import LogForm from "@/components/log-form/LogForm";
 import { Separator } from "@/components/ui/separator";
 import StatsBar from "@/components/stats/StatsBar";
 import { CurrentLog } from "@/types/logs";
-import { getLogsInRange } from "@/app/dashboard/services/log";
+import { getLogsInRange } from "@/app/dashboard/queries/log";
 
 export default async function Dashboard({
   currentLog,

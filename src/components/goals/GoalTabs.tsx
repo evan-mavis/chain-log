@@ -5,7 +5,7 @@ import CompletedGoals from "./CompletedGoals";
 import {
   getActiveGoals,
   getCompletedGoals,
-} from "@/app/dashboard/services/goal";
+} from "@/app/dashboard/queries/goal";
 import type { ActiveGoalsData } from "@/types/goals";
 
 export default async function GoalTabs({ className }: { className?: string }) {
