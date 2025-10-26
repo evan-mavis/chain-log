@@ -6,6 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import StatsBar from "@/components/stats/StatsBar";
 import { CurrentLog } from "@/types/logs";
 import { getLogsInRange } from "@/app/dashboard/queries/log";
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export default async function Dashboard({
   currentLog,
@@ -32,11 +34,27 @@ export default async function Dashboard({
         </div>
         <div className="flex w-full flex-col items-center justify-center sm:mt-6 sm:flex-row sm:items-start">
           <div className="w-full sm:w-[45%]">
-            <StatsBar className="mb-3" />
+            <Suspense
+              fallback={
+                <div className="mb-3 flex h-[96px] items-center justify-center rounded-lg border">
+                  <Spinner className="size-5" />
+                </div>
+              }
+            >
+              <StatsBar className="mb-3" />
+            </Suspense>
             <LogForm currentLog={currentLog} />
           </div>
           <Separator className="my-4 w-full sm:hidden" />
-          <GoalTabs className="sm:w-[55%]" />
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center rounded-lg border p-6 sm:w-[55%]">
+                <Spinner className="size-5" />
+              </div>
+            }
+          >
+            <GoalTabs className="sm:w-[55%]" />
+          </Suspense>
         </div>
       </div>
     </div>
