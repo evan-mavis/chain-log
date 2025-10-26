@@ -9,6 +9,8 @@ export const user = pgTable("user", {
   phoneNumber: text("phone_number"),
   phoneVerified: boolean("phone_verified").default(false).notNull(),
   smsOptIn: boolean("sms_opt_in").default(false).notNull(),
+  smsConsentAt: timestamp("sms_consent_at"),
+  smsConsentSource: text("sms_consent_source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
