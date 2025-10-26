@@ -15,7 +15,7 @@ export default async function GoalTabs({ className }: { className?: string }) {
   return (
     <Tabs
       className={cn(
-        "mt-4 mb-3 flex w-full flex-col sm:mt-0 sm:ml-6",
+        "mt-4 mb-3 flex w-full flex-col text-xs sm:mt-0 sm:ml-6 sm:text-sm",
         className,
       )}
       defaultValue="active"

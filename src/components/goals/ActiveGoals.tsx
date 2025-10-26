@@ -165,7 +165,7 @@ export default function ActiveGoals({
   );
 
   return (
-    <Card className="scrollbar-thin max-h-[37vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pt-0">
+    <Card className="scrollbar-thin max-h-[37vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pt-0 text-xs sm:text-sm">
       <CardHeader className="text-popover-foreground bg-card sticky top-0 z-10 flex items-center gap-2 border-b-2 py-2">
         <TabsList className="shrink-0">
           <TabsTrigger value="active" aria-label="Active" className="gap-2">
