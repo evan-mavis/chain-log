@@ -25,7 +25,7 @@ export default function NotificationsToggle({
   const { mode } = useAppMode();
   const isDemo = mode === "demo";
   const [optIn, setOptIn] = useState(initialOptIn ?? false);
-  const [time, setTime] = useState(initialTime ?? "09:00");
+  const [time, setTime] = useState(initialTime ?? "17:00");
   const defaultTz =
     typeof window !== "undefined"
       ? Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -89,11 +89,12 @@ export default function NotificationsToggle({
             </Button>
           </div>
           <div className="flex items-center justify-between">
-            <label className="text-sm">Time (24h):</label>
+            <label className="text-sm">Time:</label>
             <Input
               className="w-24"
               name="time"
               type="time"
+              step={1800}
               value={time}
               onChange={(e) => setTime(e.target.value)}
             />
