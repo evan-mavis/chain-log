@@ -25,8 +25,8 @@ export default function Home() {
         className="pointer-events-none fixed -right-40 -bottom-40 size-[40rem] rounded-full bg-red-500/25 blur-[120px] dark:bg-red-500/25"
       />
 
-      <section className="relative mx-auto flex min-h-[100dvh] w-[92%] max-w-5xl flex-col items-center pt-12 text-center sm:pt-16 sm:justify-center">
-        <div className="bg-background/60 text-muted-foreground mt-5 mb-2 inline-flex items-center gap-0 rounded-full border px-3 py-1 text-xs backdrop-blur sm:mt-0">
+      <section className="relative mx-auto flex min-h-[100dvh] w-[92%] max-w-5xl flex-col items-center pt-12 text-center sm:justify-center sm:pt-16">
+        <div className="bg-background/60 text-muted-foreground mt-8 mb-2 inline-flex items-center gap-0 rounded-full border px-3 py-1 text-xs backdrop-blur sm:mt-0">
           <Unlink2 className="h-5 w-5" />
           <span aria-hidden className="mx-0 h-px w-8 bg-current" />
           <Unlink2 className="h-5 w-5" />
