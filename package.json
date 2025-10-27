@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "migrate:if": "[ \"$RUN_DB_MIGRATIONS\" = \"true\" ] && pnpm drizzle-kit push || echo 'Skipping DB migrations'",
+    "migrate:if": "[ \"$RUN_DB_MIGRATIONS\" = \"true\" ] && pnpm drizzle-kit migrate || echo 'Skipping DB migrations'",
     "build": "pnpm migrate:if && next build --turbopack",
     "start": "next start",
     "lint": "eslint",

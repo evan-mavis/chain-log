@@ -191,7 +191,6 @@
   body {
     @apply bg-background text-foreground;
   }
-  /* Add visible ring on inputs when focused */
   input {
     @apply focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none;
   }
