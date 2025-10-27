@@ -74,3 +74,11 @@ export const sentEmailReminders = pgTable(
     ),
   ],
 );
+
+export const quoteOfDay = pgTable("quote_of_day", {
+  id: serial("id").primaryKey(),
+  quoteDate: date("quote_date").notNull().unique(),
+  text: text("text").notNull(),
+  author: text("author"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});

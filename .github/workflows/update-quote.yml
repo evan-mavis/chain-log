@@ -1,0 +1,22 @@
+name: update-quote
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Every day at midnight UTC
+  workflow_dispatch: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Update quote of the day
+        env:
+          APP_ORIGIN: ${{ secrets.APP_ORIGIN }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$APP_ORIGIN" ] || [ -z "$CRON_SECRET" ]; then
+            echo "Missing APP_ORIGIN or CRON_SECRET in repo secrets" >&2
+            exit 1
+          fi
+          curl -sS -f "$APP_ORIGIN/api/cron/update-quote?token=$CRON_SECRET" -H "User-Agent: gh-actions-cron" -H "Accept: application/json" -m 30

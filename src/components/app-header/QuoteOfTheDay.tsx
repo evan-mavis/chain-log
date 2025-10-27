@@ -21,7 +21,7 @@ export default async function QuoteOfTheDay({
           Quote of the Day
         </div>
         <p
-          className="text-foreground/80 text-center text-sm break-words whitespace-normal italic"
+          className="text-foreground/80 wrap-break text-center text-sm whitespace-normal italic"
           title={full}
         >
           “{quote.text}”{quote.author ? <span> — {quote.author}</span> : null}
