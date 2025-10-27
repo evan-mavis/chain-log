@@ -6,6 +6,7 @@ import type { LogDTO } from "@/types/logs";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useMemo, useTransition, useCallback } from "react";
 import CalendarChevron from "@/components/app-calender/components/CalendarChevron";
+import { cn } from "@/lib/utils";
 
 type Props = {
   logs?: LogDTO[];
@@ -31,6 +32,9 @@ export default function AppCalendar({ logs = [] }: Props) {
   const searchParams = useSearchParams();
   const rangeEnd = searchParams.get("rangeEnd");
   const [isNavigating, startTransition] = useTransition();
+
+  // var isChrome = /Chrome/.test(navigator.userAgent);
+  // console.log("Is Chrome:", isChrome);
 
   const now = new Date();
   const endMonth = rangeEnd
@@ -80,9 +84,9 @@ export default function AppCalendar({ logs = [] }: Props) {
   return (
     <div className="h-full w-full">
       {/* Mobile: One month view */}
-      <div className="block xl:hidden">
+      <div className="bg-card flex min-h-[405px] rounded-lg border-2 shadow-md xl:hidden">
         <Calendar
-          className="bg-card text-foreground w-full rounded-lg border-2 shadow-md"
+          className="text-foreground mt-3 w-full"
           mode="single"
           showOutsideDays={false}
           numberOfMonths={1}
