@@ -39,7 +39,7 @@ export default async function Dashboard({
       <div className="flex flex-col items-center justify-center">
         <AppHeader />
         <div className="flex w-[85%] flex-col items-center justify-center">
-          <div className="max-w-[1400px] flex w-full flex-col sm:mt-2 sm:flex-row sm:items-start sm:gap-6">
+          <div className="flex w-full max-w-[1400px] flex-col sm:mt-2 sm:flex-row sm:items-stretch sm:gap-6">
             <div className="h-full w-full sm:w-[70%]">
               <AppCalendar logs={prefetchLogs} />
             </div>
@@ -65,7 +65,7 @@ export default async function Dashboard({
               </Suspense>
             </div>
           </div>
-          <div className="max-w-[1400px] flex w-full flex-col items-center justify-center sm:mt-6 sm:flex-row sm:items-start">
+          <div className="flex w-full max-w-[1400px] flex-col items-center justify-center sm:mt-6 sm:flex-row sm:items-start">
             <div className="w-full sm:w-[45%]">
               <div className="sm:hidden">
                 <Suspense
