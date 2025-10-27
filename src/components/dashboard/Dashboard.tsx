@@ -29,6 +29,10 @@ export default async function Dashboard({
       ? (await import("@/app/dashboard-preview/mock-data")).demoLogs
       : await getLogsInRange(start, end);
 
+  const minimalCurrentLog = currentLog
+    ? { mood: currentLog.mood, notes: currentLog.notes }
+    : null;
+
   return (
     <ModeProvider mode={mode}>
       <div className="flex flex-col items-center justify-center">
@@ -58,7 +62,7 @@ export default async function Dashboard({
                   <StatsBar className="mb-3" />
                 )}
               </Suspense>
-              <LogForm currentLog={currentLog} />
+            <LogForm currentLog={minimalCurrentLog} />
             </div>
             <Separator className="my-4 w-full sm:hidden" />
             <Suspense
