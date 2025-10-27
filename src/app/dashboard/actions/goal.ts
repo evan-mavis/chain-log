@@ -5,8 +5,7 @@ import { goals } from "@/db/schemas/schema";
 import { getSessionUserId } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
 import { GoalInputSchema, CompleteGoalSchema } from "@/validation/goals";
-import { sql } from "drizzle-orm";
-import { eq, and } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export type GoalFormState = {
   status: "idle" | "success" | "error";
@@ -52,15 +51,20 @@ export async function upsertActiveGoal(
     });
 
     if (existingActiveGoal) {
-      await db.execute(
-        sql`
-          UPDATE goals 
-          SET description = ${validatedDescription}, 
-              is_active = true, 
-              updated_at = ${new Date()}
-          WHERE user_id = ${userId} AND type = ${type} AND is_active = true
-        ` as any,
-      );
+      await db
+        .update(goals)
+        .set({
+          description: validatedDescription,
+          isActive: true,
+          updatedAt: new Date(),
+        })
+        .where(
+          and(
+            eq(goals.userId, userId),
+            eq(goals.type, type),
+            eq(goals.isActive, true),
+          ),
+        );
     } else {
       await db.insert(goals).values({
         userId,
@@ -119,13 +123,16 @@ export async function completeGoal(
       return { status: "error", message: "Cannot complete an empty goal" };
     }
 
-    await db.execute(
-      sql`
-      UPDATE goals 
-      SET is_active = false, updated_at = ${new Date()}
-      WHERE user_id = ${userId} AND type = ${type} AND is_active = true
-    ` as any,
-    );
+    await db
+      .update(goals)
+      .set({ isActive: false, updatedAt: new Date() })
+      .where(
+        and(
+          eq(goals.userId, userId),
+          eq(goals.type, type),
+          eq(goals.isActive, true),
+        ),
+      );
 
     revalidatePath("/dashboard");
     return { status: "success" };

@@ -46,11 +46,14 @@ async function fetchQuotesRaw(): Promise<Quote[]> {
       next: { revalidate: 86400 },
     });
     if (!res.ok) return FALLBACK_QUOTES;
-    const data = await res.json();
-    const list: Quote[] = (Array.isArray(data) ? data : [])
-      .map((q: any) => ({
-        text: (q?.q as string) || "",
-        author: (q?.a as string) || undefined,
+    const data: unknown = await res.json();
+    const arr: Array<Record<string, unknown>> = Array.isArray(data)
+      ? (data as Array<Record<string, unknown>>)
+      : [];
+    const list: Quote[] = arr
+      .map((q) => ({
+        text: typeof q.q === "string" ? q.q : "",
+        author: typeof q.a === "string" ? q.a : undefined,
       }))
       .filter((q) => q.text);
     const sorted = list.sort(

@@ -139,12 +139,26 @@ const ConfettiButtonComponent = ({
 
   return (
     <Button
-      variant={(props as any).variant ?? "outline"}
+      variant={
+        (
+          props as {
+            variant?:
+              | "default"
+              | "destructive"
+              | "outline"
+              | "secondary"
+              | "ghost"
+              | "link";
+          }
+        ).variant ?? "outline"
+      }
       onClick={async (e) => {
         await handleClick(e);
         try {
           if (typeof onClick === "function") {
-            await (onClick as any)(e);
+            await (
+              onClick as (e: React.MouseEvent<HTMLButtonElement>) => unknown
+            )(e);
           }
         } catch (err) {
           // no-op

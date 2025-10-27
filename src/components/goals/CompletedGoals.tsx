@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState } from "react";
 import {
   Calendar as CalendarIcon,
   Filter,
@@ -94,7 +94,7 @@ export default function CompletedGoals({
       }
       return true;
     });
-  }, [search, type, fromDate, toDate]);
+  }, [search, type, fromDate, toDate, completedGoals]);
 
   return (
     <Card className="scrollbar-thin max-h-[37vh] w-full gap-0 overflow-y-auto rounded-xl px-2 pt-0 pb-2">
@@ -287,7 +287,9 @@ export default function CompletedGoals({
                         ).map((t) => (
                           <DropdownMenuItem
                             key={t}
-                            onSelect={() => setType(t as any)}
+                            onSelect={() =>
+                              setType(t as "All" | CompletedGoal["type"])
+                            }
                           >
                             {t === "All" ? "All Types" : t}
                           </DropdownMenuItem>

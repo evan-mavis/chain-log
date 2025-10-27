@@ -1,7 +1,6 @@
 import { Resend } from "resend";
 import React from "react";
 import { ReminderEmail } from "@/components/email-template/EmailTemplate";
-import { signUnsubscribeToken } from "@/lib/unsubscribe-token";
 
 export const resend = new Resend(process.env.RESEND_API_KEY || "");
 
@@ -28,5 +27,5 @@ export async function sendReminderEmailReact(
       actionUrl,
       unsubscribeUrl,
     }),
-  } as any);
+  });
 }

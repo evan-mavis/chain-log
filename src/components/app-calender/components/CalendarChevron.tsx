@@ -24,21 +24,13 @@ export default function CalendarChevron({
     return <Spinner className={className ?? "size-4"} />;
   }
   if (orientation === "left") {
-    return (
-      <ChevronLeftIcon className={className ?? "size-4"} {...(props as any)} />
-    );
+    return <ChevronLeftIcon className={className ?? "size-4"} {...props} />;
   }
   if (orientation === "right") {
-    return (
-      <ChevronRightIcon className={className ?? "size-4"} {...(props as any)} />
-    );
+    return <ChevronRightIcon className={className ?? "size-4"} {...props} />;
   }
   if (orientation === "up") {
-    return (
-      <ChevronUpIcon className={className ?? "size-4"} {...(props as any)} />
-    );
+    return <ChevronUpIcon className={className ?? "size-4"} {...props} />;
   }
-  return (
-    <ChevronDownIcon className={className ?? "size-4"} {...(props as any)} />
-  );
+  return <ChevronDownIcon className={className ?? "size-4"} {...props} />;
 }

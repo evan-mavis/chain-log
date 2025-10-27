@@ -24,7 +24,11 @@ export default function DayButton({
   ...props
 }: Props) {
   const [open, setOpen] = useState(false);
-  const { modifiers, onClick, ...buttonProps } = props as any;
+  const { modifiers, onClick, ...buttonProps } = props as Omit<
+    Props,
+    keyof React.ComponentProps<typeof RDPDayButton>
+  > &
+    React.ComponentProps<typeof RDPDayButton>;
 
   const today = new Date();
   const isFutureDate = day.date > today;

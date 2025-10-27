@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db/db";
 import { verifyUnsubscribeToken } from "@/lib/unsubscribe-token";
+import { and, eq, sql } from "drizzle-orm";
+import { user } from "@/db/schemas/auth-schema";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
@@ -12,10 +14,14 @@ export async function GET(req: Request) {
 
   const userId = parsed.userId;
   try {
-    await db.execute(
-      (await import("drizzle-orm"))
-        .sql`update "user" set "email_opt_in" = false, "email_consent_source" = ${"email:unsubscribe"}, "updated_at" = ${new Date()} where "id" = ${userId}` as any,
-    );
+    await db
+      .update(user)
+      .set({
+        emailOptIn: false,
+        emailConsentSource: "email:unsubscribe",
+        updatedAt: new Date(),
+      })
+      .where(eq(user.id, userId));
   } catch {
     return new NextResponse("Failed to process unsubscribe", { status: 500 });
   }

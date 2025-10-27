@@ -52,8 +52,9 @@ export default function AppCalendar({ logs = [] }: Props) {
     [logs],
   );
 
+  type DayButtonProps = React.ComponentProps<typeof DayButton>;
   const InjectedDayButton = useCallback(
-    (props: any) => (
+    (props: DayButtonProps) => (
       <DayButton
         {...props}
         getLogForDate={(date: Date) => logsByDay.get(toKey(date)) ?? null}

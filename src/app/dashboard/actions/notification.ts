@@ -1,7 +1,8 @@
 "use server";
 
 import { db } from "@/db/db";
-import { sql } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
+import { user } from "@/db/schemas/auth-schema";
 import { getSessionUserId } from "@/lib/auth-helpers";
 import { UpdateEmailNotificationSchema } from "@/validation/notification";
 
@@ -29,18 +30,21 @@ export async function updateEmailNotifications(
 
   const { optIn, time, timezone } = parsed.data;
 
-  await db.execute(
-    sql`
-      update "user" set
-        "email_opt_in" = ${optIn},
-        "email_reminder_time" = ${time ?? null},
-        "email_timezone" = ${timezone ?? null},
-        "email_consent_at" = case when ${optIn} then ${new Date()} else "email_consent_at" end,
-        "email_consent_source" = case when ${optIn} then ${"ui:user-preferences"} else "email_consent_source" end,
-        "updated_at" = ${new Date()}
-      where "id" = ${userId}
-    ` as any,
-  );
+  await db
+    .update(user)
+    .set({
+      emailOptIn: optIn,
+      emailReminderTime: time ?? null,
+      emailTimezone: timezone ?? null,
+      emailConsentAt: optIn
+        ? new Date()
+        : (undefined as unknown as Date | null),
+      emailConsentSource: optIn
+        ? "ui:user-preferences"
+        : (undefined as unknown as string | null),
+      updatedAt: new Date(),
+    })
+    .where(eq(user.id, userId));
 
   return { status: "success" };
 }
