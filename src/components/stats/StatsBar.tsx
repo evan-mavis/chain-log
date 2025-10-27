@@ -1,6 +1,10 @@
 import { ChartPie, ChevronDown, ChevronUp } from "lucide-react";
 import { getStatsData } from "@/app/dashboard/queries/stats";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import StatsTiles from "@/components/stats/StatsTiles";
 
 type Props = {
@@ -16,13 +20,19 @@ type Props = {
 };
 
 export default async function StatsBar({ className, data }: Props) {
-  const { currentStreak, last7Days, thisMonth, bestStreak, totalCompletedGoals = 0, completedGoalsLastYear = 0 } =
-    data ?? (await getStatsData());
+  const {
+    currentStreak,
+    last7Days,
+    thisMonth,
+    bestStreak,
+    totalCompletedGoals = 0,
+    completedGoalsLastYear = 0,
+  } = data ?? (await getStatsData());
 
   return (
     <div
       className={
-        " h-full mt-4 sm:mt-0 bg-card/50 supports-backdrop-filter:bg-card/60 w-full rounded-lg border p-2.5 shadow-xs backdrop-blur " +
+        "bg-card/50 supports-backdrop-filter:bg-card/60 mt-4 h-full w-full rounded-lg border p-2.5 shadow-xs backdrop-blur sm:mt-0 " +
         (className ?? "")
       }
     >
@@ -39,25 +49,25 @@ export default async function StatsBar({ className, data }: Props) {
             </span>
           </CollapsibleTrigger>
           <CollapsibleContent>
-             <StatsTiles
-               currentStreak={currentStreak}
-               last7Days={last7Days}
-               thisMonth={thisMonth}
-               bestStreak={bestStreak}
-               totalCompletedGoals={totalCompletedGoals}
-               completedGoalsLastYear={completedGoalsLastYear}
-             />
+            <StatsTiles
+              currentStreak={currentStreak}
+              last7Days={last7Days}
+              thisMonth={thisMonth}
+              bestStreak={bestStreak}
+              totalCompletedGoals={totalCompletedGoals}
+              completedGoalsLastYear={completedGoalsLastYear}
+            />
           </CollapsibleContent>
         </Collapsible>
       </div>
 
       {/* Desktop: always expanded */}
       <div className="hidden sm:flex sm:h-full sm:flex-col">
-        <div className="flex items-center justify-center border-b  text-sm font-semibold lg:text-base">
+        <div className="flex items-center justify-center border-b text-sm font-semibold lg:text-base">
           <span className="text-sm lg:text-base">Your Stats</span>
-          <ChartPie className="size-4 lg:size-5" />
+          <ChartPie className="ml-2 size-4 lg:size-5" />
         </div>
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center">
           <StatsTiles
             currentStreak={currentStreak}
             last7Days={last7Days}
@@ -72,5 +82,3 @@ export default async function StatsBar({ className, data }: Props) {
     </div>
   );
 }
-
-  

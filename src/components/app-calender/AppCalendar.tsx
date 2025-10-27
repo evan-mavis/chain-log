@@ -81,9 +81,8 @@ export default function AppCalendar({ logs = [] }: Props) {
     <div className="h-full w-full">
       {/* Mobile: One month view */}
       <div className="block xl:hidden">
-        <div className="bg-card mb-0 w-full rounded-lg border-2 p-4 shadow-md">
-          <Calendar
-            className="text-foreground w-full"
+        <Calendar
+          className="bg-card text-foreground w-full rounded-lg border-2 shadow-md"
           mode="single"
           showOutsideDays={false}
           numberOfMonths={1}
@@ -106,13 +105,12 @@ export default function AppCalendar({ logs = [] }: Props) {
           }}
           components={{ DayButton: InjectedDayButton, Chevron }}
         />
-        </div>
       </div>
 
       {/* Desktop: Three month view */}
       <div className="hidden xl:block">
         <Calendar
-          className="text-foreground bg-card mb-0 w-full max-w-[1000px] mx-auto overflow-auto rounded-lg border-2 p-2 shadow-md"
+          className="text-foreground bg-card mx-auto mb-0 w-full max-w-[1000px] overflow-auto rounded-lg border-2 p-2 shadow-md"
           mode="single"
           showOutsideDays={false}
           numberOfMonths={3}
