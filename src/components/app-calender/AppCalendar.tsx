@@ -78,10 +78,10 @@ export default function AppCalendar({ logs = [] }: Props) {
   const hasNext = (date: Date) => hasLog(addDays(date, 1));
 
   return (
-    <div className="w-full">
+    <div className="h-full w-full">
       {/* Mobile: One month view */}
       <div className="block xl:hidden">
-        <div className="bg-card mb-0 w-full rounded-lg border-2 p-2 shadow-md">
+        <div className="bg-card mb-0 w-full rounded-lg border-2 shadow-md">
           <Calendar
             className="text-foreground w-full"
           mode="single"
