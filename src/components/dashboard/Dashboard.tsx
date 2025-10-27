@@ -3,13 +3,14 @@ import AppHeader from "@/components/app-header/AppHeader";
 import GoalTabs from "@/components/goals/GoalTabs";
 import LogForm from "@/components/log-form/LogForm";
 import { Separator } from "@/components/ui/separator";
-import StatsBar from "@/components/stats/StatsBar";
+import StatsBar from "@/components/stats/components/StatsBar";
 import { CurrentLog } from "@/types/logs";
 import { getLogsInRange } from "@/app/dashboard/queries/log";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { ModeProvider } from "@/components/mode/ModeProvider";
 import QuoteOfTheDay from "../app-header/QuoteOfTheDay";
+import Stats from "../stats/Stats";
 
 export default async function Dashboard({
   currentLog,
@@ -51,47 +52,28 @@ export default async function Dashboard({
                   </div>
                 }
               >
-                {mode === "demo" ? (
-                  <StatsBar
-                    className="h-full"
-                    data={
-                      (await import("@/app/dashboard-preview/mock-data"))
-                        .demoStats
-                    }
-                  />
-                ) : (
-                  <StatsBar className="h-full" />
-                )}
+                <Stats mode={mode} />
               </Suspense>
             </div>
           </div>
           <div className="flex w-full max-w-[1400px] flex-col items-center justify-center sm:mt-6 sm:flex-row sm:items-start">
             <div className="w-full sm:w-[45%]">
-              <div className="sm:hidden">
-                <Suspense
-                  fallback={
-                    <div className="mb-3 flex h-[96px] items-center justify-center rounded-lg border">
-                      <Spinner className="size-5" />
-                    </div>
-                  }
-                >
-                  {mode === "demo" ? (
-                    <StatsBar
-                      className="mb-3"
-                      data={
-                        (await import("@/app/dashboard-preview/mock-data"))
-                          .demoStats
-                      }
-                    />
-                  ) : (
-                    <StatsBar className="mb-3" />
-                  )}
-                </Suspense>
-              </div>
               <LogForm currentLog={minimalCurrentLog} />
+              <Separator className="my-4 w-full sm:hidden" />
               <QuoteOfTheDay className="mt-2 sm:hidden" />
             </div>
             <Separator className="my-4 w-full sm:hidden" />
+            <div className="w-full sm:hidden">
+              <Suspense
+                fallback={
+                  <div className="mb-3 flex h-[96px] items-center justify-center rounded-lg border">
+                    <Spinner className="size-5" />
+                  </div>
+                }
+              >
+                <Stats mode={mode} />
+              </Suspense>
+            </div>
             <Suspense
               fallback={
                 <div className="flex items-center justify-center rounded-lg border p-6 sm:w-[55%]">

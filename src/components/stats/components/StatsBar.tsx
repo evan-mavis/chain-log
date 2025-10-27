@@ -5,7 +5,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import StatsTiles from "@/components/stats/StatsTiles";
+import StatsTiles from "@/components/stats/components/StatsTiles";
 
 type Props = {
   className?: string;
