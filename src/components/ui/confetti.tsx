@@ -160,7 +160,7 @@ const ConfettiButtonComponent = ({
               onClick as (e: React.MouseEvent<HTMLButtonElement>) => unknown
             )(e);
           }
-        } catch (err) {
+        } catch  {
           // no-op
         }
       }}

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db/db";
 import { verifyUnsubscribeToken } from "@/lib/unsubscribe-token";
-import { and, eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { user } from "@/db/schemas/auth-schema";
 
 export async function GET(req: Request) {

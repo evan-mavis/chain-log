@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db/db";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { user } from "@/db/schemas/auth-schema";
 import { getSessionUserId } from "@/lib/auth-helpers";
 import { UpdateEmailNotificationSchema } from "@/validation/notification";

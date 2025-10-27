@@ -55,7 +55,7 @@ export async function upsertLog(
 
     revalidatePath("/dashboard");
     return { status: "success" };
-  } catch (e) {
+  } catch {
     return { status: "error", message: "Failed to save" };
   }
 }

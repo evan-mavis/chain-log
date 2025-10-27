@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tabs, TabsContent, } from "../ui/tabs";
 import ActiveGoals from "./ActiveGoals";
 import CompletedGoals from "./CompletedGoals";
 import {

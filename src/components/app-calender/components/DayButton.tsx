@@ -24,7 +24,7 @@ export default function DayButton({
   ...props
 }: Props) {
   const [open, setOpen] = useState(false);
-  const { modifiers, onClick, ...buttonProps } = props as Omit<
+  const { modifiers, ...buttonProps } = props as Omit<
     Props,
     keyof React.ComponentProps<typeof RDPDayButton>
   > &

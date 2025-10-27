@@ -44,7 +44,7 @@ export default function NotificationsToggle({
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
       if (tz && tz !== timezone) setTimezone(tz);
     } catch {}
-  }, []);
+  }, [initialTimezone, timezone]);
 
   return (
     <DropdownMenu>

@@ -136,7 +136,7 @@ export async function completeGoal(
 
     revalidatePath("/dashboard");
     return { status: "success" };
-  } catch (e) {
+  } catch  {
     return { status: "error", message: "Failed to complete goal" };
   }
 }

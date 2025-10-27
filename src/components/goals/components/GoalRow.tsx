@@ -195,7 +195,6 @@ export default function GoalRow({
   onUpdateDraft,
   onCancel,
   onStartComplete,
-  onConfirmComplete,
   onCancelComplete,
   onSaveSuccess,
   onCompleteSuccess,
