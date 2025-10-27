@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
-    <main className="relative min-h-[100dvh] overflow-hidden">
+    <main className="relative min-h-[100dvh] overflow-hidden pt-12 sm:pt-0">
       <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 sm:px-10">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <span className="text-keyboard-wave text-3xl">Chain</span>
@@ -25,7 +25,7 @@ export default function Home() {
         className="pointer-events-none absolute -right-40 -bottom-40 size-[40rem] rounded-full bg-red-500/25 blur-[120px] dark:bg-red-500/25"
       />
 
-      <section className="relative mx-auto mt-4 flex min-h-[100dvh] w-[92%] max-w-5xl flex-col items-center justify-center text-center">
+      <section className="relative mx-auto mt-2 sm:mt-4 flex min-h-[calc(100dvh-64px)] w-[92%] max-w-5xl flex-col items-center justify-center text-center">
         <div className="bg-background/60 text-muted-foreground mt-5 mb-2 inline-flex items-center gap-0 rounded-full border px-3 py-1 text-xs backdrop-blur sm:mt-0">
           <Unlink2 className="h-5 w-5" />
           <span aria-hidden className="mx-0 h-px w-8 bg-current" />
