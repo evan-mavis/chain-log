@@ -40,9 +40,7 @@ export default async function Dashboard({
         <div className="flex w-[85%] flex-col items-center justify-center">
           <div className="max-w-[1400px] flex w-full flex-col sm:mt-2 sm:flex-row sm:items-stretch sm:gap-6">
             <div className="w-full sm:w-[70%]">
-              <div className="flex w-full justify-center">
                 <AppCalendar logs={prefetchLogs} />
-              </div>
             </div>
             <div className="hidden w-full sm:flex sm:w-[30%]">
               <Suspense
