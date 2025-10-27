@@ -1,6 +1,6 @@
 <div align="center">
 
-### ⛓️ Chain Log ️️️️️
+### ⛓️ Chain Log ️️️️⛓️️
 
 Chain Log is a micro‑accountability app that helps you meet your goals. Inspired by Jerry Seinfeld's "Chain Method" -- make progress everyday and keep the streak alive.
 
