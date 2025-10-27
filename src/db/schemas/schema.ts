@@ -56,3 +56,21 @@ export const logs = pgTable(
   },
   (t) => [uniqueIndex("logs_by_user_day_idx").on(t.userId, t.day)],
 );
+
+export const sentEmailReminders = pgTable(
+  "sent_email_reminders",
+  {
+    id: serial("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    reminderDate: date("reminder_date").notNull(),
+    sentAt: timestamp("sent_at").defaultNow().notNull(),
+  },
+  (t) => [
+    uniqueIndex("sent_email_reminders_by_user_date_idx").on(
+      t.userId,
+      t.reminderDate,
+    ),
+  ],
+);

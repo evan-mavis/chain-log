@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db/db";
 import { sendReminderEmailReact } from "@/lib/email";
 import { signUnsubscribeToken } from "@/lib/unsubscribe-token";
+import { sentEmailReminders } from "@/db/schemas/schema";
 
 function inTz(date: Date, tz: string) {
   const fmt = new Intl.DateTimeFormat("en-CA", {
@@ -52,12 +53,24 @@ export async function GET(req: Request) {
   });
 
   let sent = 0;
+
   for (const u of rows) {
     if (!u.email || !u.emailReminderTime || !u.emailTimezone) continue;
 
     const { hhmm, ymd } = inTz(now, u.emailTimezone);
 
-    if (hhmm !== u.emailReminderTime) continue;
+    const [userH, userM] = u.emailReminderTime.split(":").map(Number);
+    const [nowH, nowM] = hhmm.split(":").map(Number);
+
+    const userMinutes = userH * 60 + userM;
+    const nowMinutes = nowH * 60 + nowM;
+
+    let shouldSend = false;
+    if (nowMinutes >= userMinutes) {
+      shouldSend = true;
+    }
+
+    if (!shouldSend) continue;
 
     const startStr = ymd;
 
@@ -66,19 +79,41 @@ export async function GET(req: Request) {
       columns: { id: true },
     });
 
-    if (existing) continue;
+    if (existing) {
+      continue;
+    }
+
+    const alreadySent = await db.query.sentEmailReminders.findFirst({
+      where: (t, { and, eq }) =>
+        and(eq(t.userId, u.id), eq(t.reminderDate, startStr)),
+      columns: { id: true },
+    });
+
+    if (alreadySent) {
+      continue;
+    }
 
     const base = process.env.APP_ORIGIN ?? "http://localhost:3000";
     const token = signUnsubscribeToken(u.id);
     const unsubscribeUrl = `${base}/api/email/unsubscribe?token=${encodeURIComponent(token)}`;
-    await sendReminderEmailReact(
-      u.email,
-      u.name,
-      `${base}/dashboard`,
-      unsubscribeUrl,
-    );
 
-    sent++;
+    try {
+      await sendReminderEmailReact(
+        u.email,
+        u.name,
+        `${base}/dashboard`,
+        unsubscribeUrl,
+      );
+
+      await db.insert(sentEmailReminders).values({
+        userId: u.id,
+        reminderDate: startStr,
+      });
+
+      sent++;
+    } catch (error) {
+      console.error(`Failed to send reminder to ${u.email}:`, error);
+    }
   }
 
   return NextResponse.json({ sent });
