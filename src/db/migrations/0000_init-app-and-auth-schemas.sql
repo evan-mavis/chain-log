@@ -1,5 +1,15 @@
-CREATE TYPE "public"."goal_type" AS ENUM('daily', 'short_term', 'long_term');--> statement-breakpoint
-CREATE TYPE "public"."mood" AS ENUM('happy', 'sad', 'meh');--> statement-breakpoint
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'goal_type') THEN
+    CREATE TYPE "public"."goal_type" AS ENUM('daily', 'short_term', 'long_term');
+  END IF;
+END $$;--> statement-breakpoint
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'mood') THEN
+    CREATE TYPE "public"."mood" AS ENUM('happy', 'sad', 'meh');
+  END IF;
+END $$;--> statement-breakpoint
 CREATE TABLE "goals" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
