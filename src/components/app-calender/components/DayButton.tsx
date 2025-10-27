@@ -12,6 +12,7 @@ import {
 import LogForm from "@/components/log-form/LogForm";
 import type { LogDTOOrNull } from "@/types/logs";
 import { useState } from "react";
+import { useAppMode } from "@/components/mode/ModeProvider";
 
 type Props = React.ComponentProps<typeof RDPDayButton> & {
   getLogForDate?: (date: Date) => LogDTOOrNull;
@@ -24,16 +25,19 @@ export default function DayButton({
   ...props
 }: Props) {
   const [open, setOpen] = useState(false);
-  const { modifiers, ...buttonProps } = props as Omit<
+  const { modifiers, disabled: _rdpDisabled, onClick: _rdpOnClick, ...buttonProps } = props as Omit<
     Props,
     keyof React.ComponentProps<typeof RDPDayButton>
   > &
     React.ComponentProps<typeof RDPDayButton>;
 
+  const { mode } = useAppMode();
+  const isDemo = mode === "demo";
+
   const today = new Date();
   const isFutureDate = day.date > today;
   const hasLogForDate = Boolean(getLogForDate ? getLogForDate(day.date) : null);
-  const isDisabled = isFutureDate || !hasLogForDate;
+  const isDisabled = isFutureDate || (!isDemo && !hasLogForDate);
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,6 +52,7 @@ export default function DayButton({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          {...buttonProps}
           variant="ghost"
           className={cn(
             "relative h-full w-full transition-colors",
@@ -58,7 +63,6 @@ export default function DayButton({
           )}
           onClick={handleClick}
           disabled={isDisabled}
-          {...buttonProps}
         >
           {(modifiers?.achieved ?? false) ? (
             <Unlink2

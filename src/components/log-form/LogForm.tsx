@@ -112,11 +112,7 @@ export default function LogForm({ className, currentLog, date }: LogFormProps) {
           <div className="shrink-0">
             {!currentLog ? (
               <ConfettiSideCannons
-                disabled={
-                  mode === "demo" ||
-                  (Boolean(currentLog) && !isDirty) ||
-                  pending
-                }
+                disabled={(Boolean(currentLog) && !isDirty) || pending}
               >
                 {pending ? (
                   <>
