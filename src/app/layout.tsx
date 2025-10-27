@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   title: "Chain Log",
   description:
     "An accountability app to help you meet your goals. Don't break the chain!",
-    icons: {
-      icon: "/link.svg"
-    }
+  icons: {
+    icon: "/link.ico",
+  },
 };
 
 export default function RootLayout({
