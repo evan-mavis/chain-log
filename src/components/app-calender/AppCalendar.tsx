@@ -81,8 +81,9 @@ export default function AppCalendar({ logs = [] }: Props) {
     <div className="w-full">
       {/* Mobile: One month view */}
       <div className="block xl:hidden">
-        <Calendar
-          className="text-foreground bg-card mb-0 w-full rounded-lg border-2 p-2 shadow-md"
+        <div className="bg-card mb-0 w-full rounded-lg border-2 p-2 shadow-md">
+          <Calendar
+            className="text-foreground w-full"
           mode="single"
           showOutsideDays={false}
           numberOfMonths={1}
@@ -105,6 +106,7 @@ export default function AppCalendar({ logs = [] }: Props) {
           }}
           components={{ DayButton: InjectedDayButton, Chevron }}
         />
+        </div>
       </div>
 
       {/* Desktop: Three month view */}
