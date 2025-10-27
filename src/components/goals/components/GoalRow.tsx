@@ -295,9 +295,9 @@ export default function GoalRow({
             />
           </div>
         ) : (
-          <span className={g.value ? "" : "text-muted-foreground"}>
+          <p className={g.value ? "wrap-break-word" : "text-muted-foreground wrap-break-word"}>
             {g.value || "-"}
-          </span>
+          </p>
         )}
       </dd>
     </div>

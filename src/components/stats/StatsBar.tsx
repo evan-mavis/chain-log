@@ -22,7 +22,7 @@ export default async function StatsBar({ className, data }: Props) {
   return (
     <div
       className={
-        " h-full mt-3 sm:mt-0 bg-card/50 supports-backdrop-filter:bg-card/60 w-full rounded-lg border p-2.5 shadow-xs backdrop-blur " +
+        " h-full mt-4 sm:mt-0 bg-card/50 supports-backdrop-filter:bg-card/60 w-full rounded-lg border p-2.5 shadow-xs backdrop-blur " +
         (className ?? "")
       }
     >
