@@ -9,10 +9,13 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { useAppMode } from "@/components/mode/ModeProvider";
 
 export default function AppAvatar() {
   const router = useRouter();
   const { data: session } = authClient.useSession();
+  const { mode } = useAppMode();
+  const isDemo = mode === "demo";
   const image = session?.user?.image ?? undefined;
   const name = session?.user?.name ?? undefined;
 
@@ -28,7 +31,9 @@ export default function AppAvatar() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
+          disabled={isDemo}
           onClick={async () => {
+            if (isDemo) return;
             await authClient.signOut();
             router.replace("/");
           }}

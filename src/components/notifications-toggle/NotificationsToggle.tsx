@@ -11,6 +11,7 @@ import { MailCheck, MailX } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { updateEmailNotifications } from "@/app/dashboard/actions/notification";
+import { useAppMode } from "@/components/mode/ModeProvider";
 
 export default function NotificationsToggle({
   initialOptIn,
@@ -21,6 +22,8 @@ export default function NotificationsToggle({
   initialTime?: string | null;
   initialTimezone?: string | null;
 }) {
+  const { mode } = useAppMode();
+  const isDemo = mode === "demo";
   const [optIn, setOptIn] = useState(initialOptIn ?? false);
   const [time, setTime] = useState(initialTime ?? "09:00");
   const defaultTz =
@@ -62,7 +65,15 @@ export default function NotificationsToggle({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-64 p-3">
-        <form action={formAction} className="space-y-2">
+        <form
+          action={isDemo ? undefined : formAction}
+          onSubmit={(e) => {
+            if (isDemo) {
+              e.preventDefault();
+            }
+          }}
+          className="space-y-2"
+        >
           <div className="flex items-center justify-between">
             <span className="text-sm">Email Reminders:</span>
             <Button
@@ -99,7 +110,7 @@ export default function NotificationsToggle({
           </div>
           <input type="hidden" name="optIn" value={optIn ? "true" : "false"} />
           <div className="flex justify-center">
-            <Button type="submit" size="sm" disabled={pending}>
+            <Button type="submit" size="sm" disabled={pending || isDemo}>
               {pending ? "Saving..." : "Save"}
             </Button>
           </div>

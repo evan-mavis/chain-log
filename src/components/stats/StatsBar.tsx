@@ -3,11 +3,17 @@ import { getStatsData } from "@/app/dashboard/queries/stats";
 
 type Props = {
   className?: string;
+  data?: {
+    currentStreak: number;
+    last7Days: number;
+    thisMonth: number;
+    bestStreak: number;
+  };
 };
 
-export default async function StatsBar({ className }: Props) {
+export default async function StatsBar({ className, data }: Props) {
   const { currentStreak, last7Days, thisMonth, bestStreak } =
-    await getStatsData();
+    data ?? (await getStatsData());
   return (
     <div
       className={

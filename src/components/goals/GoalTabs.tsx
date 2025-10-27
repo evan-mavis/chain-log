@@ -8,9 +8,24 @@ import {
 } from "@/app/dashboard/queries/goal";
 import type { ActiveGoalsData } from "@/types/goals";
 
-export default async function GoalTabs({ className }: { className?: string }) {
-  const activeGoals = (await getActiveGoals()) as ActiveGoalsData | null;
-  const completedGoals = await getCompletedGoals();
+export default async function GoalTabs({
+  className,
+  data,
+}: {
+  className?: string;
+  data?: {
+    activeGoals?: ActiveGoalsData | null;
+    completedGoals?: Array<{
+      id: string;
+      value: string;
+      type: "Long-term" | "Short-term" | "Daily";
+      completedAt: string;
+    }>;
+  };
+}) {
+  const activeGoals =
+    data?.activeGoals ?? ((await getActiveGoals()) as ActiveGoalsData | null);
+  const completedGoals = data?.completedGoals ?? (await getCompletedGoals());
 
   return (
     <Tabs

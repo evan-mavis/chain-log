@@ -11,6 +11,7 @@ import { upsertLog, type LogFormState } from "@/app/dashboard/actions/log";
 import { formatDateForDB } from "@/lib/date-utils";
 import { CurrentLog } from "@/types/logs";
 import { Spinner } from "@/components/ui/spinner";
+import { useAppMode } from "@/components/mode/ModeProvider";
 
 type MinimalLog = Pick<NonNullable<CurrentLog>, "mood" | "notes">;
 
@@ -21,6 +22,7 @@ type LogFormProps = {
 };
 
 export default function LogForm({ className, currentLog, date }: LogFormProps) {
+  const { mode } = useAppMode();
   const currentDate = new Date();
 
   const displayDate = date
@@ -64,7 +66,12 @@ export default function LogForm({ className, currentLog, date }: LogFormProps) {
         "mt-3 flex flex-col items-center justify-center sm:mt-0",
         className,
       )}
-      action={formAction}
+      action={mode === "demo" ? undefined : formAction}
+      onSubmit={(e) => {
+        if (mode === "demo") {
+          e.preventDefault();
+        }
+      }}
     >
       <input
         type="hidden"
@@ -105,7 +112,11 @@ export default function LogForm({ className, currentLog, date }: LogFormProps) {
           <div className="shrink-0">
             {!currentLog ? (
               <ConfettiSideCannons
-                disabled={(Boolean(currentLog) && !isDirty) || pending}
+                disabled={
+                  mode === "demo" ||
+                  (Boolean(currentLog) && !isDirty) ||
+                  pending
+                }
               >
                 {pending ? (
                   <>
@@ -119,7 +130,11 @@ export default function LogForm({ className, currentLog, date }: LogFormProps) {
             ) : (
               <Button
                 type="submit"
-                disabled={(Boolean(currentLog) && !isDirty) || pending}
+                disabled={
+                  mode === "demo" ||
+                  (Boolean(currentLog) && !isDirty) ||
+                  pending
+                }
                 variant="outline"
               >
                 {pending ? (

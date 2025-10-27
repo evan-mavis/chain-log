@@ -22,6 +22,7 @@ import { useActionState, useEffect, useState } from "react";
 import type { GoalItem, GoalKey } from "@/types/goals";
 import React from "react";
 import confetti from "canvas-confetti";
+import { useAppMode } from "@/components/mode/ModeProvider";
 
 type Props = {
   goal: GoalItem;
@@ -58,6 +59,7 @@ function GoalForm({
   const [formState, formAction, pending] = useActionState(upsertActiveGoal, {
     status: "idle",
   });
+  const { mode } = useAppMode();
 
   React.useEffect(() => {
     onPendingChange(pending);
@@ -70,7 +72,12 @@ function GoalForm({
   }, [formState.status, onSaveSuccess, goalKey]);
 
   return (
-    <form action={formAction}>
+    <form
+      action={mode === "demo" ? undefined : formAction}
+      onSubmit={(e) => {
+        if (mode === "demo") e.preventDefault();
+      }}
+    >
       <input type="hidden" name="goalType" value={goalKey} />
       <input type="hidden" name="description" value={description} />
       <Button
@@ -102,6 +109,7 @@ function CompleteGoalForm({
   const [formState, formAction, pending] = useActionState(completeGoal, {
     status: "idle",
   });
+  const { mode } = useAppMode();
 
   useEffect(() => {
     onPendingChange(pending);
@@ -155,7 +163,12 @@ function CompleteGoalForm({
   }, [formState.status, onCompleteSuccess, goalKey]);
 
   return (
-    <form action={formAction}>
+    <form
+      action={mode === "demo" ? undefined : formAction}
+      onSubmit={(e) => {
+        if (mode === "demo") e.preventDefault();
+      }}
+    >
       <input type="hidden" name="goalType" value={goalKey} />
       <Button
         type="submit"
@@ -190,6 +203,7 @@ export default function GoalRow({
   const g = goal;
   const [isPending, setIsPending] = useState(false);
   const [isCompletingPending, setIsCompletingPending] = useState(false);
+  const { mode } = useAppMode();
 
   return (
     <div className="grid grid-cols-[1fr_auto] items-start gap-2 px-6 py-3 sm:gap-3">
@@ -240,6 +254,7 @@ export default function GoalRow({
               size="icon-sm"
               aria-label="Edit goal"
               onClick={() => onStartEdit(goalKey)}
+              disabled={mode === "demo"}
             >
               <SquarePen className="h-4 w-4" />
             </Button>
@@ -250,6 +265,7 @@ export default function GoalRow({
                   size="icon-sm"
                   aria-label="Complete goal"
                   onClick={() => onStartComplete(goalKey)}
+                  disabled={mode === "demo"}
                 >
                   <Trophy className="h-4 w-4" />
                 </Button>
