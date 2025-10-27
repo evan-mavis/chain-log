@@ -18,11 +18,11 @@ export default function Home() {
 
       <div
         aria-hidden
-        className="bg-primary/20 dark:bg-primary/20 pointer-events-none absolute -top-40 -left-40 size-[40rem] rounded-full blur-[120px]"
+        className="bg-primary/20 dark:bg-primary/20 pointer-events-none fixed -top-40 -left-40 size-[40rem] rounded-full blur-[120px]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-40 -bottom-40 size-[40rem] rounded-full bg-red-500/25 blur-[120px] dark:bg-red-500/25"
+        className="pointer-events-none fixed -right-40 -bottom-40 size-[40rem] rounded-full bg-red-500/25 blur-[120px] dark:bg-red-500/25"
       />
 
       <section className="relative mx-auto flex min-h-[100dvh] w-[92%] max-w-5xl flex-col items-center pt-12 text-center sm:pt-16 sm:justify-center">
