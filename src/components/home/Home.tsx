@@ -43,7 +43,7 @@ export default function Home() {
         <h1 className="hidden items-center justify-center text-4xl font-bold tracking-tight text-balance sm:flex sm:text-6xl">
           Chain Log
         </h1>
-        <p className="text-muted-foreground mt-2 max-w-2xl text-base leading-7 text-pretty sm:mt-4 sm:text-lg">
+        <p className="text-muted-foreground mt-2 max-w-2xl text-sm leading-6 text-pretty sm:mt-4 sm:text-lg sm:leading-7">
           A micro accountability app to help you meet your goals. Inspired by
           Jerry Seinfeld’s “
           <a
