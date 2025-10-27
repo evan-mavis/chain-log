@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "An accountability app to help you meet your goals. Don't break the chain!",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/link.ico",
   },
 };
 
