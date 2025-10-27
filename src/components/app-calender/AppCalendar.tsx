@@ -81,9 +81,9 @@ export default function AppCalendar({ logs = [] }: Props) {
     <div className="h-full w-full">
       {/* Mobile: One month view */}
       <div className="block xl:hidden">
-        <div className="bg-card mb-0 w-full rounded-lg border-2 shadow-md">
+        <div className="bg-card mb-0 w-full rounded-lg border-2 p-4 shadow-md">
           <Calendar
-            className="text-foreground w-full flex items-center justify-center"
+            className="text-foreground w-full"
           mode="single"
           showOutsideDays={false}
           numberOfMonths={1}
