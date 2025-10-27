@@ -9,6 +9,7 @@ import { getLogsInRange } from "@/app/dashboard/queries/log";
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { ModeProvider } from "@/components/mode/ModeProvider";
+import QuoteOfTheDay from "../app-header/QuoteOfTheDay";
 
 export default async function Dashboard({
   currentLog,
@@ -88,6 +89,7 @@ export default async function Dashboard({
                 </Suspense>
               </div>
               <LogForm currentLog={minimalCurrentLog} />
+              <QuoteOfTheDay className="mt-2 sm:hidden" />
             </div>
             <Separator className="my-4 w-full sm:hidden" />
             <Suspense
