@@ -80,9 +80,9 @@ export default function AppCalendar({ logs = [] }: Props) {
   return (
     <div className="w-full">
       {/* Mobile: One month view */}
-      <div className="block md:hidden">
+      <div className="block xl:hidden">
         <Calendar
-          className="text-foreground bg-card mb-3 w-full rounded-lg border-2 p-2 shadow-md"
+          className="text-foreground bg-card mb-0 w-full overflow-hidden rounded-lg border-2 p-2 shadow-md"
           mode="single"
           showOutsideDays={false}
           numberOfMonths={1}
@@ -108,9 +108,9 @@ export default function AppCalendar({ logs = [] }: Props) {
       </div>
 
       {/* Desktop: Three month view */}
-      <div className="hidden md:block">
+      <div className="hidden xl:block">
         <Calendar
-          className="text-foreground bg-card mb-3 w-full rounded-lg border-2 p-2 shadow-md"
+          className="text-foreground bg-card mb-0 w-full max-w-[1000px] mx-auto overflow-auto rounded-lg border-2 p-2 shadow-md"
           mode="single"
           showOutsideDays={false}
           numberOfMonths={3}

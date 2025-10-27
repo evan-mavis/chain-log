@@ -38,11 +38,13 @@ export default async function Dashboard({
       <div className="flex flex-col items-center justify-center">
         <AppHeader />
         <div className="flex w-[85%] flex-col items-center justify-center">
-          <div className="flex w-full justify-center">
-            <AppCalendar logs={prefetchLogs} />
-          </div>
-          <div className="flex w-full flex-col items-center justify-center sm:mt-6 sm:flex-row sm:items-start">
-            <div className="w-full sm:w-[45%]">
+          <div className="max-w-[1400px] flex w-full flex-col sm:mt-2 sm:flex-row sm:items-stretch sm:gap-6">
+            <div className="w-full sm:w-[70%]">
+              <div className="flex w-full justify-center">
+                <AppCalendar logs={prefetchLogs} />
+              </div>
+            </div>
+            <div className="hidden w-full sm:flex sm:w-[30%]">
               <Suspense
                 fallback={
                   <div className="mb-3 flex h-[96px] items-center justify-center rounded-lg border">
@@ -52,17 +54,42 @@ export default async function Dashboard({
               >
                 {mode === "demo" ? (
                   <StatsBar
-                    className="mb-3"
+                    className="h-full"
                     data={
                       (await import("@/app/dashboard-preview/mock-data"))
                         .demoStats
                     }
                   />
                 ) : (
-                  <StatsBar className="mb-3" />
+                  <StatsBar className="h-full" />
                 )}
               </Suspense>
-            <LogForm currentLog={minimalCurrentLog} />
+            </div>
+          </div>
+          <div className="max-w-[1400px] flex w-full flex-col items-center justify-center sm:mt-6 sm:flex-row sm:items-start">
+            <div className="w-full sm:w-[45%]">
+              <div className="sm:hidden">
+                <Suspense
+                  fallback={
+                    <div className="mb-3 flex h-[96px] items-center justify-center rounded-lg border">
+                      <Spinner className="size-5" />
+                    </div>
+                  }
+                >
+                  {mode === "demo" ? (
+                    <StatsBar
+                      className="mb-3"
+                      data={
+                        (await import("@/app/dashboard-preview/mock-data"))
+                          .demoStats
+                      }
+                    />
+                  ) : (
+                    <StatsBar className="mb-3" />
+                  )}
+                </Suspense>
+              </div>
+              <LogForm currentLog={minimalCurrentLog} />
             </div>
             <Separator className="my-4 w-full sm:hidden" />
             <Suspense

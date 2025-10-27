@@ -29,7 +29,7 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        "group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
+        "group/calendar p-3 [--cell-size:--spacing(7)] md:[--cell-size:--spacing(6)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
         className,
@@ -41,7 +41,7 @@ function Calendar({
         ...formatters,
       }}
       classNames={{
-        root: cn("w-fit", defaultClassNames.root),
+        root: cn("w-full", defaultClassNames.root),
         months: cn(
           "relative flex flex-col gap-4 md:flex-row",
           defaultClassNames.months,
@@ -62,11 +62,11 @@ function Calendar({
           defaultClassNames.button_next,
         ),
         month_caption: cn(
-          "h-(--cell-size) px-(--cell-size) flex w-full items-center justify-center",
+          "h-8 md:h-7 px-2 flex w-full items-center justify-center",
           defaultClassNames.month_caption,
         ),
         dropdowns: cn(
-          "h-(--cell-size) flex w-full items-center justify-center gap-1.5 text-sm font-medium",
+          "h-8 md:h-7 flex w-full items-center justify-center gap-1.5 text-sm font-medium",
           defaultClassNames.dropdowns,
         ),
         dropdown_root: cn(

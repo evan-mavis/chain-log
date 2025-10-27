@@ -1,4 +1,5 @@
 import { db } from "@/db/db";
+import { goals } from "@/db/schemas/schema";
 import { getSessionUserId } from "@/lib/auth-helpers";
 import { formatDateForDB } from "@/lib/date-utils";
 
@@ -18,6 +19,11 @@ export async function getStatsData() {
     where: (t, { eq }) => eq(t.userId, userId),
     columns: { day: true },
     orderBy: (t, { desc }) => desc(t.day),
+  });
+
+  const userGoals = await db.query.goals.findMany({
+    where: (t, { eq }) => eq(t.userId, userId),
+    columns: { isActive: true, updatedAt: true },
   });
 
   const today = new Date();
@@ -83,10 +89,21 @@ export async function getStatsData() {
     return best;
   }
 
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
   return {
     currentStreak: computeCurrentStreak(today),
     last7Days: countLastNDays(today, 7),
     thisMonth: countThisMonth(today),
     bestStreak: computeBestStreak(today, 90),
+    totalCompletedGoals: userGoals.reduce(
+      (acc, g) => (g.isActive ? acc : acc + 1),
+      0,
+    ),
+    completedGoalsLastYear: userGoals.reduce(
+      (acc, g) => (!g.isActive && g.updatedAt && g.updatedAt >= oneYearAgo ? acc + 1 : acc),
+      0,
+    ),
   };
 }

@@ -85,7 +85,7 @@ export default function LogForm({ className, currentLog, date }: LogFormProps) {
       <Textarea
         id="notes"
         name="notes"
-        className="min-h-20 w-full sm:min-h-40"
+        className="min-h-24 w-full sm:min-h-60"
         placeholder="What did you do today to keep your chain going?"
         value={textareaValue}
         onChange={(e) => handleTextareaChange(e.target.value)}

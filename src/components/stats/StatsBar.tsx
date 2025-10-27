@@ -1,5 +1,7 @@
-import { Award, CalendarCheck, CalendarDays, Flame } from "lucide-react";
+import { ChartPie, ChevronDown, ChevronUp } from "lucide-react";
 import { getStatsData } from "@/app/dashboard/queries/stats";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import StatsTiles from "@/components/stats/StatsTiles";
 
 type Props = {
   className?: string;
@@ -8,65 +10,67 @@ type Props = {
     last7Days: number;
     thisMonth: number;
     bestStreak: number;
+    totalCompletedGoals?: number;
+    completedGoalsLastYear?: number;
   };
 };
 
 export default async function StatsBar({ className, data }: Props) {
-  const { currentStreak, last7Days, thisMonth, bestStreak } =
+  const { currentStreak, last7Days, thisMonth, bestStreak, totalCompletedGoals = 0, completedGoalsLastYear = 0 } =
     data ?? (await getStatsData());
+
   return (
     <div
       className={
-        "bg-card/50 supports-[backdrop-filter]:bg-card/60 w-full rounded-lg border p-3 shadow-xs backdrop-blur " +
+        " h-full mt-3 sm:mt-0 bg-card/50 supports-backdrop-filter:bg-card/60 w-full rounded-lg border p-2.5 shadow-xs backdrop-blur " +
         (className ?? "")
       }
     >
-      <div className="grid grid-cols-2 gap-2 min-[950px]:grid-cols-4">
-        <div className="bg-background rounded-xl border p-2 text-center">
-          <div className="text-muted-foreground flex h-6 items-center justify-center gap-1 text-xs leading-none whitespace-nowrap">
-            <span>Streak</span>
-          </div>
-          <div className="flex items-center justify-center gap-1 text-base font-semibold sm:text-lg">
-            <Flame className="size-4 shrink-0 text-orange-500" />
-            <span className="animate-[shine_5s_ease-in-out_infinite] bg-gradient-to-r from-orange-600 via-orange-300 to-orange-600 bg-[length:300%_100%] bg-clip-text text-transparent">
-              {currentStreak}d
+      <div className="sm:hidden">
+        <Collapsible>
+          <CollapsibleTrigger className="group flex w-full items-center justify-between gap-2 border-b pb-1 text-sm font-semibold">
+            <span className="flex items-center gap-2">
+              <span className="text-sm">Your Stats</span>
+              <ChartPie className="size-4" />
             </span>
-          </div>
+            <span className="flex items-center">
+              <ChevronDown className="size-4 group-data-[state=open]:hidden" />
+              <ChevronUp className="hidden size-4 group-data-[state=open]:block" />
+            </span>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+             <StatsTiles
+               currentStreak={currentStreak}
+               last7Days={last7Days}
+               thisMonth={thisMonth}
+               bestStreak={bestStreak}
+               totalCompletedGoals={totalCompletedGoals}
+               completedGoalsLastYear={completedGoalsLastYear}
+             />
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+
+      {/* Desktop: always expanded */}
+      <div className="hidden sm:flex sm:h-full sm:flex-col">
+        <div className="flex items-center justify-center border-b  text-sm font-semibold lg:text-base">
+          <span className="text-sm lg:text-base">Your Stats</span>
+          <ChartPie className="size-4 lg:size-5" />
         </div>
-        <div className="bg-background hidden overflow-visible rounded-xl border p-2 text-center min-[950px]:block">
-          <div className="text-muted-foreground flex h-6 items-center justify-center gap-1 text-xs leading-none whitespace-nowrap">
-            <span>Last 7 Days</span>
-          </div>
-          <div className="flex items-center justify-center gap-1 text-lg font-semibold">
-            <CalendarDays className="size-4 shrink-0 text-blue-500" />
-            <span className="animate-[shine_5s_ease-in-out_infinite] bg-gradient-to-r from-blue-600 via-blue-300 to-blue-600 bg-[length:300%_100%] bg-clip-text text-transparent">
-              {last7Days}/7
-            </span>
-          </div>
-        </div>
-        <div className="bg-background hidden overflow-visible rounded-xl border p-2 text-center min-[950px]:block">
-          <div className="text-muted-foreground flex h-6 items-center justify-center gap-1 text-xs leading-none whitespace-nowrap">
-            <span>This Month</span>
-          </div>
-          <div className="flex items-center justify-center gap-1 text-lg font-semibold">
-            <CalendarCheck className="size-4 shrink-0 text-emerald-600" />
-            <span className="animate-[shine_5s_ease-in-out_infinite] bg-gradient-to-r from-emerald-700 via-emerald-400 to-emerald-700 bg-[length:300%_100%] bg-clip-text text-transparent">
-              {thisMonth}
-            </span>
-          </div>
-        </div>
-        <div className="bg-background overflow-visible rounded-xl border p-2 text-center sm:block">
-          <div className="text-muted-foreground flex h-6 items-center justify-center gap-1 text-xs leading-none whitespace-nowrap">
-            <span>Best Streak</span>
-          </div>
-          <div className="flex items-center justify-center gap-1 text-lg font-semibold">
-            <Award className="size-4 shrink-0 text-yellow-500" />
-            <span className="animate-[shine_5s_ease-in-out_infinite] bg-gradient-to-r from-yellow-600 via-yellow-300 to-yellow-600 bg-[length:300%_100%] bg-clip-text text-transparent">
-              {bestStreak}d
-            </span>
-          </div>
+        <div className="flex-1 flex items-center justify-center">
+          <StatsTiles
+            currentStreak={currentStreak}
+            last7Days={last7Days}
+            thisMonth={thisMonth}
+            bestStreak={bestStreak}
+            totalCompletedGoals={totalCompletedGoals}
+            completedGoalsLastYear={completedGoalsLastYear}
+            className="w-full max-w-[560px]"
+          />
         </div>
       </div>
     </div>
   );
 }
+
+  
