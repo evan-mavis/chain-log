@@ -79,7 +79,7 @@ export default function Home() {
           />
           <FeatureCard
             title="Gentle Momentum"
-            text="Miss a day? No shame. Turn on text notifications."
+            text="Miss a day? No shame. Turn on email notifications."
           />
         </div>
       </section>
