@@ -33,9 +33,6 @@ export default function AppCalendar({ logs = [] }: Props) {
   const rangeEnd = searchParams.get("rangeEnd");
   const [isNavigating, startTransition] = useTransition();
 
-  // var isChrome = /Chrome/.test(navigator.userAgent);
-  // console.log("Is Chrome:", isChrome);
-
   const now = new Date();
   const endMonth = rangeEnd
     ? new Date(
