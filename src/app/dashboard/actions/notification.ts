@@ -60,13 +60,13 @@ export async function updateTimezone(
   }
 
   try {
-    // Check if timezone needs updating (avoid unnecessary DB writes)
+    // check if timezone needs updating (avoid unnecessary DB writes)
     const userRow = await db.query.user.findFirst({
       where: (t, { eq }) => eq(t.id, userId),
       columns: { emailTimezone: true },
     });
 
-    // Only update if timezone is different or not set
+    // only update if timezone is different or not set
     if (userRow?.emailTimezone === timezone) {
       return { success: true, updated: false };
     }
