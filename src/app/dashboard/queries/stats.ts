@@ -1,5 +1,4 @@
 import { db } from "@/db/db";
-import { goals } from "@/db/schemas/schema";
 import { getSessionUserId } from "@/lib/auth-helpers";
 import { formatDateForDB } from "@/lib/date-utils";
 
@@ -102,7 +101,8 @@ export async function getStatsData() {
       0,
     ),
     completedGoalsLastYear: userGoals.reduce(
-      (acc, g) => (!g.isActive && g.updatedAt && g.updatedAt >= oneYearAgo ? acc + 1 : acc),
+      (acc, g) =>
+        !g.isActive && g.updatedAt && g.updatedAt >= oneYearAgo ? acc + 1 : acc,
       0,
     ),
   };

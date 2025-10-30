@@ -25,10 +25,14 @@ export default function DayButton({
   ...props
 }: Props) {
   const [open, setOpen] = useState(false);
-  const { modifiers, disabled: _rdpDisabled, onClick: _rdpOnClick, ...buttonProps } = props as Omit<
-    Props,
-    keyof React.ComponentProps<typeof RDPDayButton>
-  > &
+  const {
+    modifiers,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    disabled: _rdpDisabled,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onClick: _rdpOnClick,
+    ...buttonProps
+  } = props as Omit<Props, keyof React.ComponentProps<typeof RDPDayButton>> &
     React.ComponentProps<typeof RDPDayButton>;
 
   const { mode } = useAppMode();

@@ -6,7 +6,6 @@ import type { LogDTO } from "@/types/logs";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useMemo, useTransition, useCallback } from "react";
 import CalendarChevron from "@/components/app-calender/components/CalendarChevron";
-import { cn } from "@/lib/utils";
 
 type Props = {
   logs?: LogDTO[];
