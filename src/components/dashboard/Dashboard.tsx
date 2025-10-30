@@ -3,7 +3,6 @@ import AppHeader from "@/components/app-header/AppHeader";
 import GoalTabs from "@/components/goals/GoalTabs";
 import LogForm from "@/components/log-form/LogForm";
 import { Separator } from "@/components/ui/separator";
-import StatsBar from "@/components/stats/components/StatsBar";
 import { CurrentLog } from "@/types/logs";
 import { getLogsInRange } from "@/app/dashboard/queries/log";
 import { Suspense } from "react";
@@ -11,6 +10,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { ModeProvider } from "@/components/mode/ModeProvider";
 import QuoteOfTheDay from "../app-header/QuoteOfTheDay";
 import Stats from "../stats/Stats";
+import TimezoneDetector from "../timezone-detector/TimezoneDetector";
 
 export default async function Dashboard({
   currentLog,
@@ -37,6 +37,7 @@ export default async function Dashboard({
 
   return (
     <ModeProvider mode={mode}>
+      <TimezoneDetector />
       <div className="flex flex-col items-center justify-center">
         <AppHeader />
         <div className="flex w-[85%] flex-col items-center justify-center">

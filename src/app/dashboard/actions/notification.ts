@@ -48,3 +48,40 @@ export async function updateEmailNotifications(
 
   return { status: "success" };
 }
+
+export async function updateTimezone(
+  timezone: string,
+): Promise<{ success: boolean; error?: string; updated?: boolean }> {
+  const userId = await getSessionUserId();
+  if (!userId) return { success: false, error: "Not authenticated" };
+
+  if (!timezone || typeof timezone !== "string") {
+    return { success: false, error: "Invalid timezone" };
+  }
+
+  try {
+    // Check if timezone needs updating (avoid unnecessary DB writes)
+    const userRow = await db.query.user.findFirst({
+      where: (t, { eq }) => eq(t.id, userId),
+      columns: { emailTimezone: true },
+    });
+
+    // Only update if timezone is different or not set
+    if (userRow?.emailTimezone === timezone) {
+      return { success: true, updated: false };
+    }
+
+    await db
+      .update(user)
+      .set({
+        emailTimezone: timezone,
+        updatedAt: new Date(),
+      })
+      .where(eq(user.id, userId));
+
+    return { success: true, updated: true };
+  } catch (error) {
+    console.error("Error updating timezone:", error);
+    return { success: false, error: "Failed to update timezone" };
+  }
+}
