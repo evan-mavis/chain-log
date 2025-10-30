@@ -1,15 +1,19 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { updateTimezone } from "@/app/dashboard/actions/notification";
 import { useAppMode } from "@/components/mode/ModeProvider";
 
 export default function TimezoneDetector() {
   const { mode } = useAppMode();
-
-  if (mode === "demo") return null;
+  const hasAttemptedDetection = useRef(false);
 
   useEffect(() => {
+    if (mode === "demo") return;
+
+    if (hasAttemptedDetection.current) return;
+    hasAttemptedDetection.current = true;
+
     try {
       const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -21,7 +25,7 @@ export default function TimezoneDetector() {
     } catch (error) {
       console.debug("Timezone detection not available:", error);
     }
-  }, []);
+  }, [mode]);
 
   return null;
 }
