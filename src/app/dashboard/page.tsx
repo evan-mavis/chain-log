@@ -1,6 +1,9 @@
 import Dashboard from "@/components/dashboard/Dashboard";
 import { getCurrentLog } from "./queries/log";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function DashboardPage({
   searchParams,
 }: {
