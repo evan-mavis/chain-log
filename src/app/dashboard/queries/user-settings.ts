@@ -16,7 +16,7 @@ export async function getEmailNotificationSettings(): Promise<EmailNotificationS
     columns: {
       emailOptIn: true,
       emailReminderTime: true,
-      emailTimezone: true,
+      userTimezone: true,
     },
   });
 
@@ -25,6 +25,6 @@ export async function getEmailNotificationSettings(): Promise<EmailNotificationS
   return {
     optIn: row.emailOptIn,
     time: row.emailReminderTime,
-    timezone: row.emailTimezone,
+    timezone: row.userTimezone,
   };
 }

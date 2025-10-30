@@ -28,12 +28,12 @@ export async function getCurrentLog() {
   // this matches how logs are created on the client (browser's local timezone)
   const userRow = await db.query.user.findFirst({
     where: (t, { eq }) => eq(t.id, userId),
-    columns: { emailTimezone: true },
+    columns: { userTimezone: true },
   });
 
   // use stored timezone if available, otherwise default to UTC
   // note: Users should have timezone set (either via email notifications or auto-detected)
-  const userTimezone = userRow?.emailTimezone || "UTC";
+  const userTimezone = userRow?.userTimezone || "UTC";
   const todayStr = getDateInTimezone(new Date(), userTimezone);
 
   return (

@@ -47,7 +47,7 @@ export async function GET(req: Request) {
       id: true,
       email: true,
       emailReminderTime: true,
-      emailTimezone: true,
+      userTimezone: true,
       name: true,
     },
   });
@@ -55,9 +55,9 @@ export async function GET(req: Request) {
   let sent = 0;
 
   for (const u of rows) {
-    if (!u.email || !u.emailReminderTime || !u.emailTimezone) continue;
+    if (!u.email || !u.emailReminderTime || !u.userTimezone) continue;
 
-    const { hhmm, ymd } = inTz(now, u.emailTimezone);
+    const { hhmm, ymd } = inTz(now, u.userTimezone);
 
     const [userH, userM] = u.emailReminderTime.split(":").map(Number);
     const [nowH, nowM] = hhmm.split(":").map(Number);

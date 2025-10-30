@@ -1,0 +1,1 @@
+ALTER TABLE "user" RENAME COLUMN "email_timezone" TO "user_timezone";--> statement-breakpoint

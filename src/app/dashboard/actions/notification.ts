@@ -35,7 +35,7 @@ export async function updateEmailNotifications(
     .set({
       emailOptIn: optIn,
       emailReminderTime: time ?? null,
-      emailTimezone: timezone ?? null,
+      userTimezone: timezone ?? null,
       emailConsentAt: optIn
         ? new Date()
         : (undefined as unknown as Date | null),
@@ -63,18 +63,18 @@ export async function updateTimezone(
     // check if timezone needs updating (avoid unnecessary DB writes)
     const userRow = await db.query.user.findFirst({
       where: (t, { eq }) => eq(t.id, userId),
-      columns: { emailTimezone: true },
+      columns: { userTimezone: true },
     });
 
     // only update if timezone is different or not set
-    if (userRow?.emailTimezone === timezone) {
+    if (userRow?.userTimezone === timezone) {
       return { success: true, updated: false };
     }
 
     await db
       .update(user)
       .set({
-        emailTimezone: timezone,
+        userTimezone: timezone,
         updatedAt: new Date(),
       })
       .where(eq(user.id, userId));
