@@ -31,3 +31,10 @@ Chain Log focuses on three goals at a time — Daily, Short‑term, and Long‑t
 - **Infra**: Vercel (app + cron) or GitHub Actions
   - **Email reminders job**: runs every 30 minutes (users can configure reminder times in 30 min intervals) via GitHub Actions to check and send reminder emails
   - **Quote of the Day job**: runs daily at midnight UTC via GitHub Actions to fetch and store daily quotes
+
+### Dark Mode 🌑
+<img width="1437" height="861" alt="image" src="https://github.com/user-attachments/assets/b8ac99d9-4def-495e-9b4a-9821dde1a26b" />
+
+### Light Mode ☀️
+<img width="1424" height="883" alt="image" src="https://github.com/user-attachments/assets/7fbb58a0-3f3d-4c98-81de-f8b93c750e8a" />
+
