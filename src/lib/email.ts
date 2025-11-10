@@ -12,9 +12,9 @@ export async function sendReminderEmailReact(
 ) {
   if (!process.env.RESEND_API_KEY) {
     console.log("RESEND_API_KEY not set; skipping send");
-    console.warn("RESEND_API_KEY not set; skipping send");
     return { skipped: true } as const;
   }
+
   console.log("Sending reminder email to!!!!", to);
   return await resend.emails.send({
     from:

@@ -5,6 +5,7 @@ function getSecret(): string {
   if (!secret) {
     throw new Error("Missing EMAIL_UNSUBSCRIBE_SECRET env var");
   }
+
   return secret;
 }
 
@@ -39,17 +40,22 @@ export function verifyUnsubscribeToken(
   try {
     const [payloadB64, sig] = token.split(".");
     if (!payloadB64 || !sig) return null;
+
     const payload = Buffer.from(
       payloadB64.replace(/-/g, "+").replace(/_/g, "/"),
       "base64",
     ).toString("utf8");
+
     const expected = hmac(payload);
     if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected)))
       return null;
+
     const [userId, expStr] = payload.split(".");
     const exp = Number(expStr);
+
     if (!userId || !Number.isFinite(exp)) return null;
     if (Math.floor(Date.now() / 1000) > exp) return null;
+
     return { userId };
   } catch {
     return null;
