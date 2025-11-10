@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
-    <main className="relative min-h-[100dvh] overflow-hidden">
+    <main className="relative min-h-dvh overflow-hidden">
       <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 sm:px-10">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <span className="text-keyboard-wave text-3xl">Chain</span>
@@ -18,14 +18,14 @@ export default function Home() {
 
       <div
         aria-hidden
-        className="bg-primary/20 dark:bg-primary/20 pointer-events-none fixed -top-40 -left-40 size-[40rem] rounded-full blur-[120px]"
+        className="bg-primary/20 dark:bg-primary/20 pointer-events-none fixed -top-40 -left-40 size-160 rounded-full blur-[120px]"
       />
       <div
         aria-hidden
-        className="pointer-events-none fixed -right-40 -bottom-40 size-[40rem] rounded-full bg-red-500/25 blur-[120px] dark:bg-red-500/25"
+        className="pointer-events-none fixed -right-40 -bottom-40 size-160 rounded-full bg-red-500/25 blur-[120px] dark:bg-red-500/25"
       />
 
-      <section className="relative mx-auto flex min-h-[100dvh] w-[92%] max-w-5xl flex-col items-center pt-12 text-center sm:justify-center sm:pt-16">
+      <section className="relative mx-auto flex min-h-dvh w-[92%] max-w-5xl flex-col items-center pt-12 text-center sm:justify-center sm:pt-16">
         <div className="bg-background/60 text-muted-foreground mt-10 mb-2 inline-flex items-center gap-0 rounded-full border px-3 py-1 text-xs backdrop-blur sm:mt-0">
           <Unlink2 className="h-5 w-5" />
           <span aria-hidden className="mx-0 h-px w-8 bg-current" />
@@ -91,7 +91,7 @@ function FeatureCard({ title, text }: { title: string; text: string }) {
   return (
     <div className="bg-card relative mb-2 rounded-lg border p-4 text-left shadow-sm">
       <Pin
-        className="absolute top-0 right-0 m-1 rotate-[30deg] text-red-500"
+        className="absolute top-0 right-0 m-1 rotate-30 text-red-500"
         aria-hidden
       />
       <h3 className="text-sm font-semibold">{title}</h3>
