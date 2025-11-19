@@ -138,7 +138,7 @@ export default function ActiveGoals({
           ...gs[key],
           completing: false,
           editing: true,
-          draft: "",
+          draft: gs[key].value,
           highlightText: true,
         },
       })),
