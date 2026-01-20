@@ -1,8 +1,7 @@
 import { LinkIcon, Unlink2, Pin } from "lucide-react";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 import ThemeLoginRow from "@/components/theme-login-row/ThemeLoginRow";
 import { Separator } from "@/components/ui/separator";
+import PreviewDashboardButton from "./PreviewDashboardButton";
 
 export default function Home() {
   return (
@@ -58,12 +57,7 @@ export default function Home() {
         </p>
 
         <div className="relative mt-4 flex items-center justify-center">
-          <Link
-            href="/dashboard-preview"
-            className={buttonVariants({ variant: "outline", size: "default" })}
-          >
-            Preview Dashboard
-          </Link>
+          <PreviewDashboardButton />
         </div>
 
         <Separator className="mt-7 w-full" />
