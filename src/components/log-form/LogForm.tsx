@@ -79,13 +79,13 @@ export default function LogForm({ className, currentLog, date }: LogFormProps) {
         value={formatDateForDB(date ?? new Date())}
       />
       <input type="hidden" name="mood" value={moodValue} />
-      <label htmlFor="notes" className="mt-3 mb-2 text-sm font-bold">
+      <label htmlFor="notes" className="mt-3 mb-2 text-sm font-bold sm:mt-0">
         Notes // {displayDate}
       </label>
       <Textarea
         id="notes"
         name="notes"
-        className="min-h-24 w-full sm:min-h-60"
+        className="min-h-24 w-full sm:min-h-64"
         placeholder="What did you do today to keep your chain going?"
         value={textareaValue}
         onChange={(e) => handleTextareaChange(e.target.value)}

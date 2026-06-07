@@ -25,7 +25,7 @@ export default async function StatsBar({ className, data }: Props) {
   return (
     <div
       className={
-        "bg-card/50 supports-backdrop-filter:bg-card/60 mt-4 flex h-full w-full flex-col rounded-lg border p-2.5 shadow-xs backdrop-blur sm:mt-0 " +
+        "bg-card/50 supports-backdrop-filter:bg-card/60 mt-4 mb-3 flex h-full w-full flex-col rounded-lg border p-2.5 shadow-xs backdrop-blur sm:mt-0 sm:mb-0 " +
         (className ?? "")
       }
     >
