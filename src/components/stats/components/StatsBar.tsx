@@ -31,7 +31,7 @@ export default async function StatsBar({ className, data }: Props) {
         (className ?? "")
       }
     >
-      <div className="flex items-center justify-center border-b pb-1 text-sm font-semibold sm:pb-0 lg:text-base">
+      <div className="flex items-center justify-center text-sm font-semibold lg:text-base">
         <span className="text-sm lg:text-base">Your Stats</span>
         <ChartPie className="ml-2 size-4 lg:size-5" />
       </div>
