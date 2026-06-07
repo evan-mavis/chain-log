@@ -64,17 +64,6 @@ export default async function Dashboard({
               <QuoteOfTheDay className="mt-2 sm:hidden" />
             </div>
             <Separator className="my-4 w-full sm:hidden" />
-            <div className="w-full sm:hidden">
-              <Suspense
-                fallback={
-                  <div className="mb-3 flex h-[96px] items-center justify-center rounded-lg border">
-                    <Spinner className="size-5" />
-                  </div>
-                }
-              >
-                <Stats mode={mode} />
-              </Suspense>
-            </div>
             <Suspense
               fallback={
                 <div className="flex items-center justify-center rounded-lg border p-6 sm:w-[55%]">
@@ -98,6 +87,17 @@ export default async function Dashboard({
                 <GoalTabs className="sm:w-[55%]" />
               )}
             </Suspense>
+            <div className="w-full sm:hidden">
+              <Suspense
+                fallback={
+                  <div className="mb-3 flex h-[96px] items-center justify-center rounded-lg border">
+                    <Spinner className="size-5" />
+                  </div>
+                }
+              >
+                <Stats mode={mode} />
+              </Suspense>
+            </div>
           </div>
         </div>
       </div>
