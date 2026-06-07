@@ -145,7 +145,7 @@ export default function NotificationsToggle({
             </div>
           </div>
           <input type="hidden" name="optIn" value={optIn ? "true" : "false"} />
-          <div className="flex justify-center">
+          <div className="flex justify-end">
             <Button type="submit" size="sm" disabled={pending || isDemo}>
               {pending ? "Saving..." : "Save"}
             </Button>
