@@ -22,7 +22,7 @@ export async function getStatsData() {
 
   const userGoals = await db.query.goals.findMany({
     where: (t, { eq }) => eq(t.userId, userId),
-    columns: { isActive: true, updatedAt: true },
+    columns: { isActive: true },
   });
 
   const today = new Date();
@@ -88,9 +88,6 @@ export async function getStatsData() {
     return best;
   }
 
-  const oneYearAgo = new Date();
-  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-
   return {
     currentStreak: computeCurrentStreak(today),
     last7Days: countLastNDays(today, 7),
@@ -98,11 +95,6 @@ export async function getStatsData() {
     bestStreak: computeBestStreak(today, 90),
     totalCompletedGoals: userGoals.reduce(
       (acc, g) => (g.isActive ? acc : acc + 1),
-      0,
-    ),
-    completedGoalsLastYear: userGoals.reduce(
-      (acc, g) =>
-        !g.isActive && g.updatedAt && g.updatedAt >= oneYearAgo ? acc + 1 : acc,
       0,
     ),
   };

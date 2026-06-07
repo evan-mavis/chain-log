@@ -10,7 +10,6 @@ type Props = {
     thisMonth: number;
     bestStreak: number;
     totalCompletedGoals?: number;
-    completedGoalsLastYear?: number;
   };
 };
 
@@ -21,7 +20,6 @@ export default async function StatsBar({ className, data }: Props) {
     thisMonth,
     bestStreak,
     totalCompletedGoals = 0,
-    completedGoalsLastYear = 0,
   } = data ?? (await getStatsData());
 
   return (
@@ -42,7 +40,6 @@ export default async function StatsBar({ className, data }: Props) {
           thisMonth={thisMonth}
           bestStreak={bestStreak}
           totalCompletedGoals={totalCompletedGoals}
-          completedGoalsLastYear={completedGoalsLastYear}
           className="w-full sm:max-w-[560px]"
         />
       </div>

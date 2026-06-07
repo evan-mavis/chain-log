@@ -1,4 +1,10 @@
-import { Award, CalendarCheck, CalendarDays, Flame, ListChecks, Calendar } from "lucide-react";
+import {
+  Award,
+  CalendarCheck,
+  CalendarDays,
+  Flame,
+  ListChecks,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type StatsTilesProps = {
@@ -7,7 +13,6 @@ type StatsTilesProps = {
   thisMonth: number;
   bestStreak: number;
   totalCompletedGoals: number;
-  completedGoalsLastYear: number;
   className?: string;
 };
 
@@ -17,7 +22,6 @@ export default function StatsTiles({
   thisMonth,
   bestStreak,
   totalCompletedGoals,
-  completedGoalsLastYear,
   className,
 }: StatsTilesProps) {
   return (
@@ -70,31 +74,17 @@ export default function StatsTiles({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 xl:gap-1.5">
-        <div className="bg-background overflow-visible rounded-xl border p-1.5 text-center">
-          <div className="text-muted-foreground flex h-5 items-center justify-center gap-1 text-[11px] leading-none whitespace-nowrap">
-            <span>Completed Goals</span>
-          </div>
-          <div className="flex items-center justify-center gap-1 text-sm font-semibold sm:text-base">
-            <ListChecks className="size-3.5 shrink-0 text-emerald-600" />
-            <span className="animate-[shine_5s_ease-in-out_infinite] bg-linear-to-r from-emerald-700 via-emerald-400 to-emerald-700 bg-size-[300%_100%] bg-clip-text text-transparent">
-              {totalCompletedGoals}
-            </span>
-          </div>
+      <div className="bg-background overflow-visible rounded-xl border p-1.5 text-center">
+        <div className="text-muted-foreground flex h-5 items-center justify-center gap-1 text-[11px] leading-none whitespace-nowrap">
+          <span>Completed Goals</span>
         </div>
-        <div className="bg-background overflow-visible rounded-xl border p-1.5 text-center">
-          <div className="text-muted-foreground flex h-5 items-center justify-center gap-1 text-[11px] leading-none whitespace-nowrap">
-            <span>Completed Last Year</span>
-          </div>
-          <div className="flex items-center justify-center gap-1 text-sm font-semibold sm:text-base">
-            <Calendar className="size-3.5 shrink-0 text-purple-600" />
-            <span className="animate-[shine_5s_ease-in-out_infinite] bg-linear-to-r from-purple-700 via-purple-400 to-purple-700 bg-size-[300%_100%] bg-clip-text text-transparent">
-              {completedGoalsLastYear}
-            </span>
-          </div>
+        <div className="flex items-center justify-center gap-1 text-sm font-semibold sm:text-base">
+          <ListChecks className="size-3.5 shrink-0 text-emerald-600" />
+          <span className="animate-[shine_5s_ease-in-out_infinite] bg-linear-to-r from-emerald-700 via-emerald-400 to-emerald-700 bg-size-[300%_100%] bg-clip-text text-transparent">
+            {totalCompletedGoals}
+          </span>
         </div>
       </div>
     </div>
   );
 }
-
