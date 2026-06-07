@@ -22,10 +22,10 @@ function toYMD(d: Date): string {
   return `${y}-${m}-${day}`;
 }
 
-// generate sporadic logs over the last ~3 months (current month + previous two)
+// generate sporadic logs over the last ~3 months, capped at today
 const today = new Date();
 const start = new Date(today.getFullYear(), today.getMonth() - 2, 1);
-const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+const end = today;
 
 const sampleNotes = [
   "LeetCode DP practice: coin change & LIS",

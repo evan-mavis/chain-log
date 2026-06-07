@@ -73,7 +73,7 @@ export default function AppCalendar({ logs = [] }: Props) {
     [isNavigating],
   );
 
-  const hasLog = (date: Date) => loggedSet.has(toKey(date));
+  const hasLog = (date: Date) => date <= now && loggedSet.has(toKey(date));
   const hasPrev = (date: Date) => hasLog(addDays(date, -1));
   const hasNext = (date: Date) => hasLog(addDays(date, 1));
 
