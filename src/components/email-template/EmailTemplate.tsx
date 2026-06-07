@@ -85,11 +85,6 @@ export function ReminderEmail({
                   <br />
                   This is your friendly nudge from Chain Log. Keep your streak
                   alive — log today and keep the momentum going.
-                  <br />
-                  <br />
-                  <span style={{ color: "#ef4444" }}>
-                    Consistency is your advantage.
-                  </span>
                 </p>
                 <p style={{ margin: 0, marginTop: 20 }}>
                   <a

@@ -60,7 +60,7 @@ export default function Home() {
           <PreviewDashboardButton />
         </div>
 
-        <Separator className="mt-7 w-full" />
+        <Separator className="mt-7 hidden w-full sm:block" />
 
         <div className="mt-8 grid w-full grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-4">
           <FeatureCard

@@ -206,7 +206,7 @@ export default function GoalRow({
 
   return (
     <div className="grid grid-cols-[1fr_auto] items-start gap-2 px-6 py-3 sm:gap-3">
-      <dt className="text-muted-foreground flex items-center gap-2">
+      <dt className="text-muted-foreground flex items-center gap-2 text-sm font-medium sm:text-base">
         {iconFor(g.label)}
         {g.label}
       </dt>
